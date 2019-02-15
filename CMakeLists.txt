@@ -34,6 +34,38 @@ macro(configure_google_test)
 	include(GoogleTest)
 endmacro()
 
+macro(configure_json_adapter_interface)
+	# Check if git is available
+	find_package(Git)
+	if(NOT GIT_FOUND)
+		message(FATAL_ERROR "git not found!")
+	endif()
+
+	# Clone the JSON adapter interface repository
+	if(EXISTS ${CMAKE_SOURCE_DIR}/interface/JSONAdapterInterface)
+		message(STATUS "interface/JSONAdapterInterface directory found, pulling...")
+		execute_process(
+                COMMAND             ${GIT_EXECUTABLE} pull origin master
+                COMMAND             ${GIT_EXECUTABLE} submodule update --remote
+                WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
+                OUTPUT_VARIABLE     git_output)
+	else()
+		message(STATUS "interface/JSONAdapterInterface directory not found, cloning...")
+		execute_process(
+				COMMAND             ${GIT_EXECUTABLE} clone https://github.com/systelab/cpp-json-adapter.git interface/JSONAdapterInterface
+				WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
+				OUTPUT_VARIABLE     git_output)
+	endif()
+	
+	# Checkout the right branch
+	set(JSONADAPTER_BRANCH master)
+	message(STATUS "Checking out ${JSONADAPTER_BRANCH} branch...")
+	execute_process(
+			COMMAND             ${GIT_EXECUTABLE} checkout ${JSONADAPTER_BRANCH}
+			WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
+			OUTPUT_VARIABLE     git_output)	
+endmacro()
+
 macro(configure_rapidjson_adapter)
 	# Check if git is available
 	find_package(Git)
@@ -76,12 +108,13 @@ endmacro()
 
 macro(configure_standalone)
 	# Configure project
-	project(RapidJSONAdapter)
+	project(JWTUtils)
 
 	# Setup google_test (before set bin dir)
 	configure_google_test()
 	
 	# Setup external repositories
+	configure_json_adapter_interface()
 	configure_rapidjson_adapter()
 	update_submodules()
 
@@ -95,11 +128,9 @@ macro(configure_standalone)
 	include_directories(${CMAKE_SOURCE_DIR}/extern/RapidJSONAdapter/interface)
 	include_directories(${CMAKE_SOURCE_DIR}/src)
 	include_directories(${CMAKE_SOURCE_DIR}/test)
-	include_directories(${CMAKE_SOURCE_DIR}/test/TestUtilities)
 	
 	# Add external dependencies subprojects
-	add_subdirectory(${CMAKE_SOURCE_DIR}/test/RapidJSONAdapterTest)
-	add_subdirectory(${CMAKE_SOURCE_DIR}/test/JWTUtilsTest)
+	# add_subdirectory(${CMAKE_SOURCE_DIR}/test/JWTUtilsTest)
 endmacro()
 
 

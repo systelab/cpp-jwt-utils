@@ -43,16 +43,16 @@ macro(configure_rapidjson_adapter)
 
 	# Clone the RapidJSON adapter repository
 	if(EXISTS ${CMAKE_SOURCE_DIR}/extern/RapidJSONAdapter)
-		message(STATUS "src/RapidJSONAdapter directory found, pulling...")
+		message(STATUS "extern/RapidJSONAdapter directory found, pulling...")
 		execute_process(
                 COMMAND             ${GIT_EXECUTABLE} pull origin master
                 COMMAND             ${GIT_EXECUTABLE} submodule update --remote
                 WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
                 OUTPUT_VARIABLE     git_output)
 	else()
-		message(STATUS "src/RapidJSONAdapter directory not found, cloning...")
+		message(STATUS "extern/RapidJSONAdapter directory not found, cloning...")
 		execute_process(
-				COMMAND             ${GIT_EXECUTABLE} clone https://github.com/systelab/cpp-rapidjson-json-adapter.git src/RapidJSONAdapter
+				COMMAND             ${GIT_EXECUTABLE} clone https://github.com/systelab/cpp-rapidjson-json-adapter.git extern/RapidJSONAdapter
 				WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
 				OUTPUT_VARIABLE     git_output)
 	endif()
@@ -97,9 +97,9 @@ macro(configure_standalone)
 	include_directories(${CMAKE_SOURCE_DIR}/test)
 	include_directories(${CMAKE_SOURCE_DIR}/test/TestUtilities)
 	
-	# Add test subprojects
-	add_subdirectory(${CMAKE_SOURCE_DIR}/test/TestUtilities/JSONAdapterTestUtilities)
-	add_subdirectory(${CMAKE_SOURCE_DIR}/test/RapidJSONAdapterTest)	
+	# Add external dependencies subprojects
+	add_subdirectory(${CMAKE_SOURCE_DIR}/test/RapidJSONAdapterTest)
+	add_subdirectory(${CMAKE_SOURCE_DIR}/test/JWTUtilsTest)
 endmacro()
 
 
@@ -110,4 +110,3 @@ endif()
 
 # Add library subprojects
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/JWTUtils)
-add_subdirectory(${CMAKE_SOURCE_DIR}/test/JWTUtilsTest)

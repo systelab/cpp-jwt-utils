@@ -81,7 +81,7 @@ macro(configure_standalone)
 	# Setup google_test (before set bin dir)
 	configure_google_test()
 	
-	# Setup external test utilities repositories
+	# Setup external repositories
 	configure_rapidjson_adapter()
 	update_submodules()
 
@@ -91,8 +91,8 @@ macro(configure_standalone)
 	set(CMAKE_CXX_STANDARD_REQUIRED ON)
 	
 	# Configure include directories
-	include_directories(${CMAKE_SOURCE_DIR}/include)
-	include_directories(${CMAKE_SOURCE_DIR}/interface)
+	include_directories(${CMAKE_SOURCE_DIR}/extern/RapidJSONAdapter/include)
+	include_directories(${CMAKE_SOURCE_DIR}/extern/RapidJSONAdapter/interface)
 	include_directories(${CMAKE_SOURCE_DIR}/src)
 	include_directories(${CMAKE_SOURCE_DIR}/test)
 	include_directories(${CMAKE_SOURCE_DIR}/test/TestUtilities)

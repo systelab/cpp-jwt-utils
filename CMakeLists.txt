@@ -125,7 +125,7 @@ macro(configure_standalone)
 	
 	# Configure include directories
 	include_directories(${CMAKE_SOURCE_DIR}/extern/RapidJSONAdapter/include)
-	include_directories(${CMAKE_SOURCE_DIR}/extern/RapidJSONAdapter/interface)
+	include_directories(${CMAKE_SOURCE_DIR}/interface)
 	include_directories(${CMAKE_SOURCE_DIR}/src)
 	include_directories(${CMAKE_SOURCE_DIR}/test)
 	

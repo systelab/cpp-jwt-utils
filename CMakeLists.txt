@@ -110,6 +110,10 @@ macro(configure_standalone)
 	# Configure project
 	project(JWTUtils)
 
+	# Setup external libraries through conan
+	include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+	conan_basic_setup()	
+	
 	# Setup google_test (before set bin dir)
 	configure_google_test()
 	

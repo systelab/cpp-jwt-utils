@@ -34,114 +34,136 @@ macro(configure_google_test)
 	include(GoogleTest)
 endmacro()
 
-macro(configure_json_adapter_interface)
+macro(configure_test_utilities)
+	# Configure repository to clone
+	set(TEST_UTILITIES_URL https://github.com/systelab/cpp-test-utilities.git)	
+	set(TEST_UTILITIES_DIR extern/TestUtilities)
+	set(TEST_UTILITIES_BRANCH master)
+
 	# Check if git is available
 	find_package(Git)
 	if(NOT GIT_FOUND)
 		message(FATAL_ERROR "git not found!")
 	endif()
 
-	# Clone the JSON adapter interface repository
-	if(EXISTS ${CMAKE_SOURCE_DIR}/interface/JSONAdapterInterface)
-		message(STATUS "interface/JSONAdapterInterface directory found, pulling...")
+	# Clone the test utilities repository
+	if(EXISTS ${CMAKE_SOURCE_DIR}/${TEST_UTILITIES_DIR})
+		message(STATUS "${TEST_UTILITIES_DIR} found, pulling...")
 		execute_process(
                 COMMAND             ${GIT_EXECUTABLE} pull origin master
                 COMMAND             ${GIT_EXECUTABLE} submodule update --remote
                 WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
                 OUTPUT_VARIABLE     git_output)
 	else()
-		message(STATUS "interface/JSONAdapterInterface directory not found, cloning...")
+		message(STATUS "${TEST_UTILITIES_DIR} directory not found, cloning...")
 		execute_process(
-				COMMAND             ${GIT_EXECUTABLE} clone https://github.com/systelab/cpp-json-adapter.git interface/JSONAdapterInterface
+				COMMAND             ${GIT_EXECUTABLE} clone ${TEST_UTILITIES_URL} ${TEST_UTILITIES_DIR}
 				WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
 				OUTPUT_VARIABLE     git_output)
 	endif()
 	
 	# Checkout the right branch
-	set(JSONADAPTER_BRANCH master)
-	message(STATUS "Checking out ${JSONADAPTER_BRANCH} branch...")
+	message(STATUS "Checking out ${TEST_UTILITIES_BRANCH} branch...")
 	execute_process(
-			COMMAND             ${GIT_EXECUTABLE} checkout ${JSONADAPTER_BRANCH}
+			COMMAND             ${GIT_EXECUTABLE} checkout ${TEST_UTILITIES_BRANCH}
 			WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
-			OUTPUT_VARIABLE     git_output)	
+			OUTPUT_VARIABLE     git_output)
+			
+	# Add cloned folder into includes
+	include_directories(${CMAKE_SOURCE_DIR}/${TEST_UTILITIES_DIR})	
+endmacro()
+
+macro(configure_json_adapter)
+	# Configure repository to clone
+	set(JSON_ADAPTER_URL https://github.com/systelab/cpp-json-adapter.git)	
+	set(JSON_ADAPTER_DIR extern/JSONAdapter)
+	set(JSON_ADAPTER_BRANCH master)
+
+	# Clone the JSON adapter repository
+	if(EXISTS ${CMAKE_SOURCE_DIR}/${JSON_ADAPTER_DIR})
+		message(STATUS "${JSON_ADAPTER_DIR} found, pulling...")
+		execute_process(
+                COMMAND             ${GIT_EXECUTABLE} pull origin master
+                COMMAND             ${GIT_EXECUTABLE} submodule update --remote
+                WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
+                OUTPUT_VARIABLE     git_output)
+	else()
+		message(STATUS "${JSON_ADAPTER_DIR} directory not found, cloning...")
+		execute_process(
+				COMMAND             ${GIT_EXECUTABLE} clone ${JSON_ADAPTER_URL} ${JSON_ADAPTER_DIR}
+				WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
+				OUTPUT_VARIABLE     git_output)
+	endif()
+	
+	# Checkout the right branch
+	message(STATUS "Checking out ${JSON_ADAPTER_BRANCH} branch...")
+	execute_process(
+			COMMAND             ${GIT_EXECUTABLE} checkout ${JSON_ADAPTER_BRANCH}
+			WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
+			OUTPUT_VARIABLE     git_output)
+			
+	# Add cloned folder into includes
+	include_directories(${CMAKE_SOURCE_DIR}/${JSON_ADAPTER_DIR})	
 endmacro()
 
 macro(configure_rapidjson_adapter)
-	# Check if git is available
-	find_package(Git)
-	if(NOT GIT_FOUND)
-		message(FATAL_ERROR "git not found!")
-	endif()
+	# Configure repository to clone
+	set(RAPIDJSON_ADAPTER_URL https://github.com/systelab/cpp-rapidjson-json-adapter.git)	
+	set(RAPIDJSON_ADAPTER_DIR extern/RapidJSONAdapter)
+	set(RAPIDJSON_ADAPTER_BRANCH master)
 
 	# Clone the RapidJSON adapter repository
-	if(EXISTS ${CMAKE_SOURCE_DIR}/extern/RapidJSONAdapter)
-		message(STATUS "extern/RapidJSONAdapter directory found, pulling...")
+	if(EXISTS ${CMAKE_SOURCE_DIR}/${RAPIDJSON_ADAPTER_DIR})
+		message(STATUS "${RAPIDJSON_ADAPTER_DIR} found, pulling...")
 		execute_process(
                 COMMAND             ${GIT_EXECUTABLE} pull origin master
                 COMMAND             ${GIT_EXECUTABLE} submodule update --remote
                 WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
                 OUTPUT_VARIABLE     git_output)
 	else()
-		message(STATUS "extern/RapidJSONAdapter directory not found, cloning...")
+		message(STATUS "${RAPIDJSON_ADAPTER_DIR} directory not found, cloning...")
 		execute_process(
-				COMMAND             ${GIT_EXECUTABLE} clone https://github.com/systelab/cpp-rapidjson-json-adapter.git extern/RapidJSONAdapter
+				COMMAND             ${GIT_EXECUTABLE} clone ${RAPIDJSON_ADAPTER_URL} ${RAPIDJSON_ADAPTER_DIR}
 				WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
 				OUTPUT_VARIABLE     git_output)
 	endif()
 	
 	# Checkout the right branch
-	set(RAPIDJSONADAPTER_BRANCH master)
-	message(STATUS "Checking out ${RAPIDJSONADAPTER_BRANCH} branch...")
+	message(STATUS "Checking out ${RAPIDJSON_ADAPTER_BRANCH} branch...")
 	execute_process(
-			COMMAND             ${GIT_EXECUTABLE} checkout ${RAPIDJSONADAPTER_BRANCH}
+			COMMAND             ${GIT_EXECUTABLE} checkout ${RAPIDJSON_ADAPTER_BRANCH}
 			WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
-			OUTPUT_VARIABLE     git_output)	
+			OUTPUT_VARIABLE     git_output)
+			
+	# Add cloned folder into includes
+	include_directories(${CMAKE_SOURCE_DIR}/${RAPIDJSON_ADAPTER_DIR})
 endmacro()
 
-macro(update_submodules)
-	message(STATUS "Updating submodules...")
-	execute_process(
-			COMMAND             ${GIT_EXECUTABLE} submodule update --init --recursive
-			WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
-			OUTPUT_VARIABLE     git_output)	
-endmacro()
+# Configure project
+project(JWTUtils)
 
-macro(configure_standalone)
-	# Configure project
-	project(JWTUtils)
+# Setup 3rd party libraries through conan
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()	
 
-	# Setup external libraries through conan
-	include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-	conan_basic_setup()	
+# Setup google_test
+configure_google_test()
 	
-	# Setup google_test (before set bin dir)
-	configure_google_test()
+# Setup extern repositories
+configure_test_utilities()
+configure_json_adapter()
+configure_rapidjson_adapter()
+
+# Configure environment
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 	
-	# Setup external repositories
-	configure_json_adapter_interface()
-	configure_rapidjson_adapter()
-	update_submodules()
-
-	# Configure environment
-	set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-	set(CMAKE_CXX_STANDARD 14)
-	set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# Configure include directories
+include_directories(${CMAKE_SOURCE_DIR}/src)
+include_directories(${CMAKE_SOURCE_DIR}/test)
 	
-	# Configure include directories
-	include_directories(${CMAKE_SOURCE_DIR}/extern/RapidJSONAdapter/include)
-	include_directories(${CMAKE_SOURCE_DIR}/interface)
-	include_directories(${CMAKE_SOURCE_DIR}/src)
-	include_directories(${CMAKE_SOURCE_DIR}/test)
-	
-	# Add external dependencies subprojects
-	# add_subdirectory(${CMAKE_SOURCE_DIR}/test/JWTUtilsTest)
-endmacro()
-
-
-# Configure project to be standalone
-if (CMAKE_BUILD_TYPE STREQUAL "JWTUtilsStandalone")
-	configure_standalone()
-endif()
-
-# Add library subprojects
+# Add subprojects
+add_subdirectory(${CMAKE_SOURCE_DIR}/src/RapidJSONAdapter)
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/JWTUtils)
+#add_subdirectory(${CMAKE_SOURCE_DIR}/test/JWTUtilsTest)

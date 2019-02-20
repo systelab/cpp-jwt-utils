@@ -1,0 +1,31 @@
+dist: trusty
+language: cpp
+compiler: gcc
+
+before_install:
+  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update -qq
+
+install: 
+  - sudo apt-get install -qq gcc-6
+  - sudo apt-get install -qq g++-6
+  - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 90
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 90
+  - sudo apt-get install lcov
+  - pip install conan --user
+  - conan user
+
+script:    
+  - g++ --version
+  - mkdir -p build
+  - cd build
+  - conan install ..
+  - cmake .. -DCMAKE_BUILD_TYPE=Coverage
+  - make
+  - make JWTUtilsTestCoverage
+  - cd test
+  - cd JWTUtilsTest
+  - ctest
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

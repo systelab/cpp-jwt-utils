@@ -135,8 +135,9 @@ macro(configure_rapidjson_adapter)
 			WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
 			OUTPUT_VARIABLE     git_output)
 			
-	# Add cloned folder into includes
-	include_directories(${CMAKE_SOURCE_DIR}/${RAPIDJSON_ADAPTER_DIR})
+	# Add cloned repository into includes
+	include_directories(${CMAKE_SOURCE_DIR}/${RAPIDJSON_ADAPTER_DIR}/src)
+	include_directories(${CMAKE_SOURCE_DIR}/${RAPIDJSON_ADAPTER_DIR}/test)
 endmacro()
 
 # Configure project
@@ -164,6 +165,6 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 include_directories(${CMAKE_SOURCE_DIR}/test)
 	
 # Add subprojects
-add_subdirectory(${CMAKE_SOURCE_DIR}/src/RapidJSONAdapter)
+add_subdirectory(${CMAKE_SOURCE_DIR}/extern/RapidJSONAdapter/src/RapidJSONAdapter)
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/JWTUtils)
 add_subdirectory(${CMAKE_SOURCE_DIR}/test/JWTUtilsTest)

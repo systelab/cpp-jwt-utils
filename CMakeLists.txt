@@ -162,6 +162,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 	
 # Configure include directories
 include_directories(${CMAKE_SOURCE_DIR}/src)
+include_directories(${CMAKE_SOURCE_DIR}/src/JWTUtils)
 include_directories(${CMAKE_SOURCE_DIR}/test)
 	
 # Add subprojects

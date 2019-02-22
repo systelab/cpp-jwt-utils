@@ -1,8 +1,5 @@
 #pragma once
 
-#include <stdio.h>
-#include <tchar.h>
-
 // STL
 #include <memory>
 #include <string>

@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "HMACSHA256SignatureService.h"
 
 #include "Services/Base64EncodeService.h"

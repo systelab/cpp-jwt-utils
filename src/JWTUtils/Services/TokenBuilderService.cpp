@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "TokenBuilderService.h"
 
 #include "Services/Base64EncodeService.h"
@@ -7,6 +6,8 @@
 #include "JSONAdapterInterface/IJSONAdapter.h"
 #include "JSONAdapterInterface/IJSONDocument.h"
 #include "JSONAdapterInterface/IJSONValue.h"
+
+#include <sstream>
 
 
 namespace systelab { namespace jwt {

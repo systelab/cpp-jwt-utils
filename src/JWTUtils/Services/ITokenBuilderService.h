@@ -1,5 +1,9 @@
 #pragma once
 
+#include <string>
+#include <vector>
+
+
 namespace systelab { namespace jwt {
 
 	class ITokenBuilderService

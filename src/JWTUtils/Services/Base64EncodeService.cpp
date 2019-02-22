@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "Base64EncodeService.h"
 
 #include <openssl/hmac.h>

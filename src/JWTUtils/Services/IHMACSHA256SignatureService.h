@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace systelab { namespace jwt {
 
 	class IHMACSHA256SignatureService

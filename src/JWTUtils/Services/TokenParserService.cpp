@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "TokenParserService.h"
 
 #include "Services/Base64EncodeService.h"

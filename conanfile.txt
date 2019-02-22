@@ -4,3 +4,6 @@ OpenSSL/1.0.2n@conan/stable
 
 [generators]
 cmake
+
+[options]
+OpenSSL:shared=True

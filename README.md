@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/systelab/cpp-jwt-utils.svg?branch=master)](https://travis-ci.org/systelab/cpp-jwt-utils)
 [![Build status](https://ci.appveyor.com/api/projects/status/p3nxvjc7g367k0tg?svg=true)](https://ci.appveyor.com/project/systelab/cpp-jwt-utils)
 [![codecov](https://codecov.io/gh/systelab/cpp-jwt-utils/branch/master/graph/badge.svg)](https://codecov.io/gh/systelab/cpp-jwt-utils)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/dd59028748584d038d7088d0ef72869d)](https://www.codacy.com/app/joaquimvila/cpp-jwt-utils?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=systelab/cpp-jwt-utils&amp;utm_campaign=Badge_Grade)
 
 # C++ JSON Web Token Utilities
 

@@ -22,6 +22,7 @@ git_clone_repository(URL https://github.com/systelab/cpp-json-adapter.git       
 git_clone_repository(URL https://github.com/systelab/cpp-rapidjson-json-adapter.git   DIR extern/RapidJSONAdapter   BRANCH master)
 
 # Configure include directories
+include_directories(${CMAKE_SOURCE_DIR}/extern/RapidJSONAdapter/src)
 include_directories(${CMAKE_SOURCE_DIR}/src)
 include_directories(${CMAKE_SOURCE_DIR}/test)
 	

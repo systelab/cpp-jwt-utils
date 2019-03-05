@@ -1,4 +1,4 @@
-dist: trusty
+dist: xenial
 language: cpp
 compiler: gcc
 
@@ -7,10 +7,10 @@ before_install:
   - sudo apt-get update -qq
   
 install: 
-  - sudo apt-get install -qq gcc-6
-  - sudo apt-get install -qq g++-6
-  - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 90
-  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 90
+  - sudo apt-get install -qq gcc-7
+  - sudo apt-get install -qq g++-7
+  - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 90
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
   - sudo apt-get install lcov
   - pip install conan --user
   - conan user
@@ -19,7 +19,7 @@ script:
   - g++ --version
   - mkdir -p build
   - cd build
-  - conan install .. -s compiler.libcxx=libstdc++11
+  - conan install ..
   - cmake .. -DCMAKE_BUILD_TYPE=Coverage
   - make
   - make JWTUtilsTestCoverage

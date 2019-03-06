@@ -9,6 +9,18 @@ This library provides utilities to generate, parse and validate JWTs (JSON Web T
 
 ## Installation
 
+### Windows
+* Clone this repository into a local folder
+* Create a build folder
+`md build && cd build`
+* Install 3rd party dependencies through conan
+`conan install .. -s arch=x86`
+* Configure project using cmake
+`cmake ..`
+* Build project using VS solution generated on build folder
+
+### Linux
+
 TBD
 
 ## Usage

@@ -87,14 +87,26 @@ std::string secretKey = "Here goes your secret key";
 std::vector< std::pair<std::string, std::string> > claims =
     { {"sub", "1234567890"}, {"name", "John Doe"}, {"iat", "1516239022"} };
 
-std::string token = m_service->buildJWT(secretKey, claims);
+std::string token = tokenBuilderService.buildJWT(secretKey, claims);
 ```
 
 ### Parse a token
 
-Use the `TokenParserService` class to parse a JWT token and retrieve the claims contained on it. It will return false when the provided JWT is not valid.
+Use the `systelab::jwt::TokenParserService` class to parse a JWT token and retrieve the claims contained on it. It will return false when the provided JWT is not valid.
 
 ```cpp
-TBD: Code to call the service
+#include "RapidJSONAdapter/JSONAdapter.h"
+#include "JWTUtils/Services/TokenParserService.h"
+
+systelab::json::rapidjson::JSONAdapter jsonAdapter;
+systelab::jwt::TokenParserService tokenParserService(jsonAdapter);
+
+std::string token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
+                    "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoiMTUxNjIzOTAyMiJ9."
+                    "5ODOvx-citIP2b7EbnG1TlSUcoAKmCeOyE-_Kw3-dLo";
+std::string secretKey = "Here goes your secret key";
+
+std::vector< std::pair<std::string, std::string> > claims;
+bool valid = tokenParserService.validateJWT(token, secretKey, claims);
 ```
 

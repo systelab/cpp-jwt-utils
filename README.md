@@ -77,7 +77,14 @@ target_link_libraries(${MY_PROJECT} ${CONAN_LIBS})
 Use the `TokenBuilderService` class to generate a valid token containing a vector of claims:
 
 ```cpp
-TBD: Code to call the service
+#include "RapidJSONAdapter/JSONAdapter.h"
+#include "JWTUtils/Services/TokenBuilderService.h"
+
+systelab::json::rapidjson::JSONAdapter jsonAdapter;
+systelab::jwt::TokenBuilderService tokenBuilderService(jsonAdapter);
+std::string secretKey = "Here goes your secret key";
+std::vector< std::pair<std::string, std::string> > claims = { {"sub", "1234567890"}, {"name", "John Doe"}, {"iat", "1516239022"} };
+std::string token = m_service->buildJWT(secretKey, claims);
 ```
 
 ### Parse a token

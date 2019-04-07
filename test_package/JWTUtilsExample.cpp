@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdexcept>
 
-#include "JWTUtils/Services/ITokenBuilderService.h"
+#include "JWTUtils/Services/TokenBuilderService.h"
 #include "RapidJSONAdapter/JSONAdapter.h"
 
 

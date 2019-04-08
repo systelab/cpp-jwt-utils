@@ -74,7 +74,7 @@ script:
   - make
   - cd bin
   - if [ $TRAVIS_OS_NAME == osx ]; then cp -f *.dylib /usr/local/lib; fi
-  - ./JWTUtilsTestTest
+  - ./JWTUtilsTest
   - cd ..
   - if [[ $TRAVIS_OS_NAME == linux && $BUILD_TYPE == Coverage ]]; then make JWTUtilsTestCoverage; fi
   - cd test

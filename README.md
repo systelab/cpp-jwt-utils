@@ -43,7 +43,7 @@ Build library with the following steps:
 > make
 ```
 
-### Download using Conan (not available yet)
+### Download using Conan
 
   1. Create/update your `conanfile.txt` to add this library as follows:
 

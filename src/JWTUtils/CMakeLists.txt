@@ -1,3 +1,7 @@
+# Find external dependencides
+find_package(RapidJSONAdapter)
+find_package(OpenSSL)
+
 # Configure preprocessor definitions
 add_compile_options(-DRAPIDJSON_HAS_STDSTRING=1)
 
@@ -9,7 +13,7 @@ set(JWT_UTILS JWTUtils)
 file(GLOB_RECURSE JWT_UTILS_SRC "*.cpp")
 file(GLOB_RECURSE JWT_UTILS_HDR "*.h")
 add_library(${JWT_UTILS} STATIC ${JWT_UTILS_SRC} ${JWT_UTILS_HDR})
-target_link_libraries(${JWT_UTILS} ${CONAN_LIBS})
+target_link_libraries(${JWT_UTILS} RapidJSONAdapter OpenSSL::OpenSSL)
 
 #Configure source groups
 foreach(FILE ${JWT_UTILS_SRC} ${JWT_UTILS_HDR}) 

@@ -14,8 +14,8 @@ configure_google_test()
 # Setup extern repositories
 include(GitCloneRepository)
 git_clone_repository(URL https://github.com/systelab/cpp-test-utilities.git           DIR extern/TestUtilities      BRANCH v1.0.0)
-git_clone_repository(URL https://github.com/systelab/cpp-json-adapter.git             DIR extern/JSONAdapter        BRANCH v1.0.0)
-git_clone_repository(URL https://github.com/systelab/cpp-rapidjson-json-adapter.git   DIR extern/RapidJSONAdapter   BRANCH v1.0.0)
+git_clone_repository(URL https://github.com/systelab/cpp-json-adapter.git             DIR extern/JSONAdapter        BRANCH v1.0.1)
+git_clone_repository(URL https://github.com/systelab/cpp-rapidjson-json-adapter.git   DIR extern/RapidJSONAdapter   BRANCH v1.0.1)
 
 # Configure include directories
 include_directories(${CMAKE_SOURCE_DIR}/extern/RapidJSONAdapter/src)

@@ -16,7 +16,7 @@ find_package(JWTUtils)
 # Configure test package project
 set(JWT_UTILS_PACKAGE_TEST_PROJECT JWTUtilsPackageTest)
 add_executable(${JWT_UTILS_PACKAGE_TEST_PROJECT} JWTUtilsExample.cpp)
-target_link_libraries(${JWT_UTILS_PACKAGE_TEST_PROJECT} ${CONAN_LIBS})
+target_link_libraries(${JWT_UTILS_PACKAGE_TEST_PROJECT} JWTUtils::JWTUtils)
 
 # Register test
 enable_testing()

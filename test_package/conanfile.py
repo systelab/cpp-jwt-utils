@@ -4,7 +4,7 @@ from conans import ConanFile, CMake, tools
 
 class JWTUtilsTestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
-    generators = "cmake"
+    generators = "cmake_find_package"
 
     def build(self):
         cmake = CMake(self)
@@ -17,6 +17,5 @@ class JWTUtilsTestConan(ConanFile):
         self.copy('*.so*', dst='bin', src='lib')
 
     def test(self):
-        if not tools.cross_building(self.settings):
-            os.chdir("bin")
-            self.run(".%sJWTUtilsPackageTest" % os.sep)
+        cmake = CMake(self)
+        cmake.test()

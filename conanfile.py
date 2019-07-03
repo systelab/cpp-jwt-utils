@@ -8,7 +8,7 @@ class JWTUtilsConan(ConanFile):
     author = "CSW <csw@werfen.com>"
     topics = ("conan", "jwt", "utils", "security")
     license = "MIT"
-    generators = "cmake"
+    generators = "cmake_find_package"
     settings = "os", "compiler", "build_type", "arch"
     default_options = "OpenSSL:shared=True"
 

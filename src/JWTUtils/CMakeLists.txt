@@ -1,5 +1,6 @@
-# Find external dependencides
-find_package(RapidJSONAdapter)
+cmake_minimum_required(VERSION 3.2)
+
+# Find 3rd party dependencides
 find_package(OpenSSL)
 
 # Configure preprocessor definitions

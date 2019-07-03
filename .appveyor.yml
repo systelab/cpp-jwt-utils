@@ -37,13 +37,14 @@ after_build:
 
 test_script:
   - ps: cd bin
+  - ps: cd $env:CONFIGURATION
   - JWTUtilsTest.exe --gtest_output=xml:JWTUtilsTest.xml
 
 after_test:
   - ps: (new-object net.webclient).UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\JWTUtilsTest.xml))
 
 artifacts:
-  - path: 'build\lib\JWTUtils.lib'
+  - path: 'build\lib\%CONFIGURATION%\JWTUtils.lib'
     name: JWTUtils.lib
 
 deploy_script:

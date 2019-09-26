@@ -28,4 +28,5 @@ include_directories(${CMAKE_SOURCE_DIR}/extern/RapidJSONAdapter/src)
 # Add subprojects
 add_subdirectory(${CMAKE_SOURCE_DIR}/extern/RapidJSONAdapter/src/RapidJSONAdapter)
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/JWTUtils)
+add_subdirectory(${CMAKE_SOURCE_DIR}/test/JWTUtilsTestUtilities)
 add_subdirectory(${CMAKE_SOURCE_DIR}/test/JWTUtilsTest)

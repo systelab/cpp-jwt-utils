@@ -102,6 +102,7 @@ script:
 deploy:
   provider: script
   script: conan upload "JWTUtils/${TRAVIS_TAG:1}@systelab/stable" --all -r systelab-bintray --force
+  skip_cleanup: true
   on:
     tags: true
     condition: "$BUILD_TYPE != Coverage"

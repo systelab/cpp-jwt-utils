@@ -19,9 +19,9 @@ class JWTUtilsTestUtilitiesConan(ConanFile):
 
     def requirements(self):
         if self.options.gtest == "1.7.0":
-            self.build_requires("gtest/1.7.0@systelab/stable")
+            self.requires("gtest/1.7.0@systelab/stable")
         else:
-            self.build_requires("gtest/1.8.1@bincrafters/stable")
+            self.requires("gtest/1.8.1@bincrafters/stable")
 
         if ("%s" % self.version) == "None":
             self.requires("JWTUtils/%s@systelab/stable" % os.environ['VERSION'])

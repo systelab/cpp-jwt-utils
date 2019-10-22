@@ -72,6 +72,15 @@ script:
   - conan install .. -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX}
   - cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
   - make
+  - cd bin
+  - if [ $TRAVIS_OS_NAME == osx ]; then cp -f *.dylib /usr/local/lib; fi
+  - ./JWTUtilsTest
+  - cd ..
+  - cd test
+  - cd JWTUtilsTest
+  - ctest
+  - cd ..
+  - cd ..
   - |
     if [ -n "$TRAVIS_TAG" ]; then
       conan export-pkg ../conanfile.py "JWTUtils/${TRAVIS_TAG:1}@systelab/stable" -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX};
@@ -86,16 +95,7 @@ script:
         conan test ../test_package/conanfile.py JWTUtils/0.0.${TRAVIS_BUILD_NUMBER}@systelab/stable -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX};
       fi
     fi
-  - cd bin
-  - if [ $TRAVIS_OS_NAME == osx ]; then cp -f *.dylib /usr/local/lib; fi
-  - ./JWTUtilsTest
-  - cd ..
   - if [[ $TRAVIS_OS_NAME == linux && $BUILD_TYPE == Coverage ]]; then make JWTUtilsTestCoverage; fi
-  - cd test
-  - cd JWTUtilsTest
-  - ctest
-  - cd ..
-  - cd ..
   - cd ..
   - cd test
   - cd JWTUtilsTestUtilities

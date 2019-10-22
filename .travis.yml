@@ -122,9 +122,9 @@ script:
   - |
     if [ "$BUILD_TYPE" == "Release" ] || [ "$BUILD_TYPE" == "Debug" ]; then
       if [ -n "$TRAVIS_TAG" ]; then
-        conan test ../test_package/conanfile.py JWTUtilsTestUtilities/${TRAVIS_TAG:1}@systelab/stable -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX};
+        conan test test_package/conanfile.py JWTUtilsTestUtilities/${TRAVIS_TAG:1}@systelab/stable -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX};
       else
-        conan test ../test_package/conanfile.py JWTUtilsTestUtilities/0.0.${TRAVIS_BUILD_NUMBER}@systelab/stable -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX};
+        conan test test_package/conanfile.py JWTUtilsTestUtilities/0.0.${TRAVIS_BUILD_NUMBER}@systelab/stable -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX};
       fi
     fi
   - cd ..

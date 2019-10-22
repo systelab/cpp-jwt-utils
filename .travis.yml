@@ -97,10 +97,8 @@ script:
   - cd JWTUtilsTest
   - ctest
   - cd ..
-  - cd ..
-  - cd test
   - cd JWTUtilsTestUtilities
-  - md build
+  - mkdir -p build
   - cd build
   - |
     if [ -n "$TRAVIS_TAG" ]; then

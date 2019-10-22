@@ -97,6 +97,9 @@ script:
   - cd JWTUtilsTest
   - ctest
   - cd ..
+  - cd ..
+  - cd ..
+  - cd test
   - cd JWTUtilsTestUtilities
   - mkdir -p build
   - cd build

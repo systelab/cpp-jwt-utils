@@ -1,3 +1,4 @@
+import os
 from conans import ConanFile, tools
 
 class JWTUtilsTestUtilitiesConan(ConanFile):

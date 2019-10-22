@@ -67,7 +67,7 @@ after_test:
 artifacts:
   - path: 'build\lib\%CONFIGURATION%\JWTUtils.lib'
     name: JWTUtils.lib
-  - path: 'test\JWTUtilsTestUtilities\build\lib\%CONFIGURATION%\JWTUtils.lib'
+  - path: 'test\JWTUtilsTestUtilities\build\lib\%CONFIGURATION%\JWTUtilsTestUtilities.lib'
     name: JWTUtilsTestUtilities.lib
 
 deploy_script:

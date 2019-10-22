@@ -10,11 +10,22 @@ class JWTUtilsConan(ConanFile):
     license = "MIT"
     generators = "cmake_find_package"
     settings = "os", "compiler", "build_type", "arch"
-    default_options = "OpenSSL:shared=True"
+    options = {"gtest": ["1.7.0", "1.8.1"], "OpenSSL": ["1.0.2n"]}
+    default_options = {"gtest":"1.8.1", "OpenSSL":"1.0.2n"}
+
+    def configure(self):
+        self.options["OpenSSL"].shared = True
+        self.options["RapidJSONAdapter"].gtest = self.options.gtest
 
     def requirements(self):
-        self.requires("RapidJSONAdapter/1.0.1@systelab/stable")
-        self.requires("OpenSSL/1.0.2n@conan/stable")
+        self.requires("RapidJSONAdapter/1.0.3@systelab/stable")
+        self.requires(("OpenSSL/%s@conan/stable") % self.options.OpenSSL) 
+
+    def build_requirements(self):
+        if self.options.gtest == "1.7.0":
+            self.build_requires("gtest/1.7.0@systelab/stable")
+        else:
+            self.build_requires("gtest/1.8.1@bincrafters/stable")
 
     def imports(self):
         self.copy("*.dll", dst="bin", src="bin")

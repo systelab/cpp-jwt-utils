@@ -14,7 +14,7 @@ class JWTUtilsConan(ConanFile):
     default_options = {"gtest":"1.8.1", "OpenSSL":"1.0.2n"}
 
     def configure(self):
-        self.options["OpenSSL"].shared = True
+        self.options["OpenSSL"].shared = False
         self.options["RapidJSONAdapter"].gtest = self.options.gtest
 
     def requirements(self):

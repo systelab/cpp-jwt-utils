@@ -12,7 +12,7 @@ namespace systelab { namespace jwt { namespace test_utility {
 		virtual ~MockTokenParserService();
 
 		MOCK_CONST_METHOD3(validateJWT, bool(const std::string&, const std::string&, 
-											 const std::vector< std::pair<std::string, std::string> >&));
+											 std::vector< std::pair<std::string, std::string> >&));
 	};
 
 }}}

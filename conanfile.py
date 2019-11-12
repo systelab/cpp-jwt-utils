@@ -18,7 +18,7 @@ class JWTUtilsConan(ConanFile):
         self.options["RapidJSONAdapter"].gtest = self.options.gtest
 
     def requirements(self):
-        self.requires("RapidJSONAdapter/1.0.3@systelab/stable")
+        self.requires("RapidJSONAdapter/1.0.4@systelab/stable")
         self.requires(("OpenSSL/%s@conan/stable") % self.options.OpenSSL) 
 
     def build_requirements(self):

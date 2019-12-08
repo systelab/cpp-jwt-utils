@@ -22,7 +22,6 @@ namespace systelab { namespace jwt {
 		std::string base64Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 
 		int i = 0;
-		int j = 0;
 		unsigned char char_array_3[3];
 		unsigned char char_array_4[4];
 
@@ -45,6 +44,7 @@ namespace systelab { namespace jwt {
 
 		if (i)
 		{
+			int j;
 			for (j = i; j < 3; j++)
 			{
 				char_array_3[j] = '\0';

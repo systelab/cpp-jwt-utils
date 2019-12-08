@@ -74,7 +74,6 @@ namespace systelab { namespace jwt {
 	{
 		int nBytesToEncode = (int) encodedString.size();
 		int i = 0;
-		int j = 0;
 		int in_ = 0;
 		unsigned char char_array_4[4], char_array_3[3];
 		std::string ret;
@@ -106,6 +105,7 @@ namespace systelab { namespace jwt {
 
 		if (i)
 		{
+			int j;
 			for (j = i; j < 4; j++)
 			{
 				char_array_4[j] = 0;

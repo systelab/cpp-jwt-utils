@@ -10,8 +10,8 @@ class JWTUtilsConan(ConanFile):
     license = "MIT"
     generators = "cmake_find_package"
     settings = "os", "compiler", "build_type", "arch"
-    options = {"gtest": ["1.7.0", "1.8.1"], "OpenSSL": ["1.0.2n"]}
-    default_options = {"gtest":"1.8.1", "OpenSSL":"1.0.2n"}
+    options = {"gtest": ["1.7.0", "1.8.1", "1.10.0"], "OpenSSL": ["1.0.2n"]}
+    default_options = {"gtest":"1.10.0", "OpenSSL":"1.0.2n"}
     exports_sources = "*"
 
     def configure(self):
@@ -19,14 +19,16 @@ class JWTUtilsConan(ConanFile):
         self.options["RapidJSONAdapter"].gtest = self.options.gtest
 
     def requirements(self):
-        self.requires("RapidJSONAdapter/1.0.5@systelab/stable")
+        self.requires("RapidJSONAdapter/1.0.6@systelab/stable")
         self.requires(("OpenSSL/%s@conan/stable") % self.options.OpenSSL)
 
     def build_requirements(self):
         if self.options.gtest == "1.7.0":
             self.build_requires("gtest/1.7.0@systelab/stable")
+        elif self.options.gtest == "1.8.1":
+            self.requires("gtest/1.8.1@bincrafters/stable")
         else:
-            self.build_requires("gtest/1.8.1@bincrafters/stable")
+            self.requires("gtest/1.10.0@systelab/stable")
 
     def build(self):
         cmake = CMake(self)

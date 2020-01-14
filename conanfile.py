@@ -26,9 +26,9 @@ class JWTUtilsConan(ConanFile):
         if self.options.gtest == "1.7.0":
             self.build_requires("gtest/1.7.0@systelab/stable")
         elif self.options.gtest == "1.8.1":
-            self.requires("gtest/1.8.1@bincrafters/stable")
+            self.build_requires("gtest/1.8.1@bincrafters/stable")
         else:
-            self.requires("gtest/1.10.0@systelab/stable")
+            self.build_requires("gtest/1.10.0@systelab/stable")
 
     def build(self):
         cmake = CMake(self)

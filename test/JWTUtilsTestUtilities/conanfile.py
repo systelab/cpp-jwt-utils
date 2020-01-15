@@ -11,8 +11,8 @@ class JWTUtilsTestUtilitiesConan(ConanFile):
     license = "MIT"
     generators = "cmake_find_package"
     settings = "os", "compiler", "build_type", "arch"
-    options = {"gtest": ["1.7.0", "1.8.1", "1.10.0"], "OpenSSL": ["1.0.2n"]}
-    default_options = {"gtest":"1.10.0", "OpenSSL":"1.0.2n"}
+    options = {"gtest": ["1.7.0", "1.8.1", "1.10.0"], "OpenSSL": ["1.0.2n", "1.0.2s"]}
+    default_options = {"gtest":"1.10.0", "OpenSSL":"1.0.2s"}
     exports_sources = "*"
 
     def configure(self):

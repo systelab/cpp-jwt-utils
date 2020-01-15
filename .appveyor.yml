@@ -29,7 +29,7 @@ environment:
     visual_studio: Visual Studio 16 2019
     compiler_toolset: v142
     gtest: 1.10.0
-    OpenSSL: 1.0.2n
+    OpenSSL: 1.0.2s
 
 install:
   - "SET PATH=%PYTHON%;%PYTHON%/Scripts/;%PATH%"

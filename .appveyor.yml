@@ -43,7 +43,12 @@ build_script:
   - cd build
   - conan install .. -s build_type=%CONFIGURATION% -s compiler.toolset=%COMPILER_TOOLSET% -s arch=%ARCH% -o gtest=%GTEST% -o OpenSSL=%OPENSSL%
   - cmake .. -G "%VISUAL_STUDIO%" -A %PLATFORM%
-  - msbuild JWTUtils.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - msbuild JWTUtils.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"  
+  - cd bin
+  - ps: cd $env:CONFIGURATION
+  - JWTUtilsTest.exe --gtest_output=xml:JWTUtilsTest.xml
+  - cd ..
+  - cd ..
   - conan export-pkg ../conanfile.py JWTUtils/%APPVEYOR_BUILD_VERSION%@systelab/stable -s build_type=%CONFIGURATION% -s compiler.toolset=%COMPILER_TOOLSET% -s arch=%ARCH% -o gtest=%GTEST% -o OpenSSL=%OPENSSL%
   - conan test ../test_package/conanfile.py JWTUtils/%APPVEYOR_BUILD_VERSION%@systelab/stable -s build_type=%CONFIGURATION% -s compiler.toolset=%COMPILER_TOOLSET% -s arch=%ARCH% -o gtest=%GTEST% -o OpenSSL=%OPENSSL%
   - cd ..

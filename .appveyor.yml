@@ -15,14 +15,6 @@ environment:
     PYTHON: "C:\\Python36"
 
   matrix:
-  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-    arch: x86
-    platform: Win32
-    visual_studio: Visual Studio 15 2017
-    compiler_toolset: v141
-    gtest: 1.7.0
-    OpenSSL: 1.0.2n
-
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
     arch: x86_64
     platform: x64
@@ -30,6 +22,14 @@ environment:
     compiler_toolset: v142
     gtest: 1.10.0
     OpenSSL: 1.0.2s
+
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    arch: x86
+    platform: Win32
+    visual_studio: Visual Studio 15 2017
+    compiler_toolset: v141
+    gtest: 1.7.0
+    OpenSSL: 1.0.2n
 
 install:
   - "SET PATH=%PYTHON%;%PYTHON%/Scripts/;%PATH%"

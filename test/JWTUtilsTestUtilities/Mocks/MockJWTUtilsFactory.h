@@ -2,6 +2,11 @@
 
 #include "JWTUtils/Services/IJWTUtilsFactory.h"
 
+#include "JWTUtils/Services/IBase64EncodeService.h"
+#include "JWTUtils/Services/IHMACSHA256SignatureService.h"
+#include "JWTUtils/Services/ITokenBuilderService.h"
+#include "JWTUtils/Services/ITokenParserService.h"
+
 
 namespace systelab { namespace jwt { namespace test_utility {
 

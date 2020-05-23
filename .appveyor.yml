@@ -21,7 +21,7 @@ environment:
     visual_studio: Visual Studio 16 2019
     compiler_toolset: v142
     gtest: 1.10.0
-    OpenSSL: 1.0.2s
+    OpenSSL: 1.1.1g
 
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     arch: x86

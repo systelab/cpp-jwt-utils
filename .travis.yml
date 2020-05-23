@@ -82,7 +82,7 @@ script:
   - g++ --version
   - mkdir -p build
   - cd build
-  - conan install .. -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -o gtest=${GTEST_VERSION} -o OpenSSL=${OPENSSL_VERSION}
+  - conan install .. -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -o gtest=${GTEST_VERSION} -o openssl=${OPENSSL_VERSION}
   - cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
   - make
   - cd bin
@@ -96,16 +96,16 @@ script:
   - cd ..
   - |
     if [ -n "$TRAVIS_TAG" ]; then
-      conan export-pkg ../conanfile.py "JWTUtils/${TRAVIS_TAG:1}@systelab/stable" -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -o gtest=${GTEST_VERSION} -o OpenSSL=${OPENSSL_VERSION};
+      conan export-pkg ../conanfile.py "JWTUtils/${TRAVIS_TAG:1}@systelab/stable" -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -o gtest=${GTEST_VERSION} -o openssl=${OPENSSL_VERSION};
     else
-      conan export-pkg ../conanfile.py "JWTUtils/0.0.${TRAVIS_BUILD_NUMBER}@systelab/stable" -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -o gtest=${GTEST_VERSION} -o OpenSSL=${OPENSSL_VERSION};
+      conan export-pkg ../conanfile.py "JWTUtils/0.0.${TRAVIS_BUILD_NUMBER}@systelab/stable" -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -o gtest=${GTEST_VERSION} -o openssl=${OPENSSL_VERSION};
     fi
   - |
     if [ "$BUILD_TYPE" == "Release" ] || [ "$BUILD_TYPE" == "Debug" ]; then
       if [ -n "$TRAVIS_TAG" ]; then
-        conan test ../test_package/conanfile.py JWTUtils/${TRAVIS_TAG:1}@systelab/stable -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -o gtest=${GTEST_VERSION} -o OpenSSL=${OPENSSL_VERSION};
+        conan test ../test_package/conanfile.py JWTUtils/${TRAVIS_TAG:1}@systelab/stable -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -o gtest=${GTEST_VERSION} -o openssl=${OPENSSL_VERSION};
       else
-        conan test ../test_package/conanfile.py JWTUtils/0.0.${TRAVIS_BUILD_NUMBER}@systelab/stable -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -o gtest=${GTEST_VERSION} -o OpenSSL=${OPENSSL_VERSION};
+        conan test ../test_package/conanfile.py JWTUtils/0.0.${TRAVIS_BUILD_NUMBER}@systelab/stable -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -o gtest=${GTEST_VERSION} -o openssl=${OPENSSL_VERSION};
       fi
     fi
   - if [[ $TRAVIS_OS_NAME == linux && $BUILD_TYPE == Coverage ]]; then make JWTUtilsTestCoverage; fi
@@ -116,24 +116,24 @@ script:
   - cd build
   - |
     if [ -n "$TRAVIS_TAG" ]; then
-      conan install .. -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -e VERSION="${TRAVIS_TAG:1}" -o gtest=${GTEST_VERSION} -o OpenSSL=${OPENSSL_VERSION};
+      conan install .. -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -e VERSION="${TRAVIS_TAG:1}" -o gtest=${GTEST_VERSION} -o openssl=${OPENSSL_VERSION};
     else
-      conan install .. -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -e VERSION="0.0.${TRAVIS_BUILD_NUMBER}" -o gtest=${GTEST_VERSION} -o OpenSSL=${OPENSSL_VERSION};
+      conan install .. -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -e VERSION="0.0.${TRAVIS_BUILD_NUMBER}" -o gtest=${GTEST_VERSION} -o openssl=${OPENSSL_VERSION};
     fi
   - cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
   - make
   - |
     if [ -n "$TRAVIS_TAG" ]; then
-      conan export-pkg ../conanfile.py "JWTUtilsTestUtilities/${TRAVIS_TAG:1}@systelab/stable" -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -o gtest=${GTEST_VERSION} -o OpenSSL=${OPENSSL_VERSION};
+      conan export-pkg ../conanfile.py "JWTUtilsTestUtilities/${TRAVIS_TAG:1}@systelab/stable" -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -o gtest=${GTEST_VERSION} -o openssl=${OPENSSL_VERSION};
     else
-      conan export-pkg ../conanfile.py "JWTUtilsTestUtilities/0.0.${TRAVIS_BUILD_NUMBER}@systelab/stable" -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -o gtest=${GTEST_VERSION} -o OpenSSL=${OPENSSL_VERSION};
+      conan export-pkg ../conanfile.py "JWTUtilsTestUtilities/0.0.${TRAVIS_BUILD_NUMBER}@systelab/stable" -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -o gtest=${GTEST_VERSION} -o openssl=${OPENSSL_VERSION};
     fi
   - |
     if [ "$BUILD_TYPE" == "Release" ] || [ "$BUILD_TYPE" == "Debug" ]; then
       if [ -n "$TRAVIS_TAG" ]; then
-        conan test ../test_package/conanfile.py JWTUtilsTestUtilities/${TRAVIS_TAG:1}@systelab/stable -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -o gtest=${GTEST_VERSION} -o OpenSSL=${OPENSSL_VERSION};
+        conan test ../test_package/conanfile.py JWTUtilsTestUtilities/${TRAVIS_TAG:1}@systelab/stable -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -o gtest=${GTEST_VERSION} -o openssl=${OPENSSL_VERSION};
       else
-        conan test ../test_package/conanfile.py JWTUtilsTestUtilities/0.0.${TRAVIS_BUILD_NUMBER}@systelab/stable -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -o gtest=${GTEST_VERSION} -o OpenSSL=${OPENSSL_VERSION};
+        conan test ../test_package/conanfile.py JWTUtilsTestUtilities/0.0.${TRAVIS_BUILD_NUMBER}@systelab/stable -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -o gtest=${GTEST_VERSION} -o openssl=${OPENSSL_VERSION};
       fi
     fi
   - cd ..

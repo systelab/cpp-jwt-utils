@@ -9,7 +9,7 @@ class JWTUtilsTestUtilitiesTestConan(ConanFile):
 
     def configure(self):
         self.options["JWTUtilsTestUtilities"].gtest = self.options.gtest
-        self.options["JWTUtilsTestUtilities"].OpenSSL = self.options.openssl
+        self.options["JWTUtilsTestUtilities"].openssl = self.options.openssl
 
     def build(self):
         cmake = CMake(self)

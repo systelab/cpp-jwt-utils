@@ -13,9 +13,15 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # Add project folder into includes
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-# Find external dependencides
-find_package(gtest)
+# Find external dependencies
 find_package(JWTUtils)
+
+set(GTEST_PACKAGE_NAME gtest)
+find_package(${GTEST_PACKAGE_NAME})
+if (NOT TARGET ${GTEST_PACKAGE_NAME}::${GTEST_PACKAGE_NAME})
+    set(GTEST_PACKAGE_NAME GTest)
+    find_package(${GTEST_PACKAGE_NAME})
+endif()
 
 # Configure DB Adapter test utilities project
 set(JWT_UTILS_TEST_UTILITIES_PROJECT JWTUtilsTestUtilities)
@@ -38,7 +44,7 @@ foreach (TMP_PATH ${JWT_UTILS_TEST_UTILITIES_PROJECT_HDR})
 endforeach(TMP_PATH)
 
 add_library(${JWT_UTILS_TEST_UTILITIES_PROJECT} STATIC ${JWT_UTILS_TEST_UTILITIES_PROJECT_SRC} ${JWT_UTILS_TEST_UTILITIES_PROJECT_HDR})
-target_link_libraries(${JWT_UTILS_TEST_UTILITIES_PROJECT} JWTUtils::JWTUtils gtest::gtest)
+target_link_libraries(${JWT_UTILS_TEST_UTILITIES_PROJECT} JWTUtils::JWTUtils ${GTEST_PACKAGE_NAME}::${GTEST_PACKAGE_NAME})
 
 # Configure source groups
 foreach(FILE ${JWT_UTILS_TEST_UTILITIES_PROJECT_SRC} ${JWT_UTILS_TEST_UTILITIES_PROJECT_HDR})

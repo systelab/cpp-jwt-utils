@@ -19,7 +19,7 @@ class JWTUtilsConan(ConanFile):
         self.options["openssl"].shared = True
 
     def requirements(self):
-        self.requires("RapidJSONAdapter/1.0.7@systelab/stable")
+        self.requires("RapidJSONAdapter/1.0.8@systelab/stable")
         if self.options.openssl == "1.0.2n":
             self.requires(("OpenSSL/%s@conan/stable") % self.options.openssl)
         else:

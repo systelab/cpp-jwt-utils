@@ -38,10 +38,10 @@ function parseParameters
 
 parseParameters "${@}"
 
-echo -e "\nUploading JWTUtils/$VERSION@systelab/stable to systelab-bintray...\n\n"
-conan upload "JWTUtils/$VERSION@systelab/stable" --all -r systelab-bintray --force
+echo -e "\nUploading JWTUtils/$VERSION@systelab/stable to systelab-public...\n\n"
+conan upload "JWTUtils/$VERSION@systelab/stable" --all -r systelab-public --force
 checkErrors
 
-echo -e "\nUploading JWTUtilsTestUtilities/$VERSION@systelab/stable to systelab-bintray...\n\n"
-conan upload "JWTUtilsTestUtilities/$VERSION@systelab/stable" --all -r systelab-bintray --force
+echo -e "\nUploading JWTUtilsTestUtilities/$VERSION@systelab/stable to systelab-public...\n\n"
+conan upload "JWTUtilsTestUtilities/$VERSION@systelab/stable" --all -r systelab-public --force
 checkErrors

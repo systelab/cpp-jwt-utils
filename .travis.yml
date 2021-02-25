@@ -15,6 +15,7 @@ matrix:
           - gcc-7
           - g++-7
     env:
+      - COMPILER_NAME=gcc-7
       - BUILD_TYPE=Release
       - CONAN_BUILD_TYPE=Release
       - COMPILER_LIBCXX=libstdc++11
@@ -34,6 +35,7 @@ matrix:
           - gcc-7
           - g++-7
     env:
+      - COMPILER_NAME=gcc-7
       - BUILD_TYPE=Debug
       - CONAN_BUILD_TYPE=Debug
       - COMPILER_LIBCXX=libstdc++11
@@ -53,6 +55,7 @@ matrix:
           - gcc-7
           - g++-7
     env:
+      - COMPILER_NAME=gcc-7
       - BUILD_TYPE=Coverage
       - CONAN_BUILD_TYPE=Debug
       - COMPILER_LIBCXX=libstdc++11
@@ -64,6 +67,7 @@ matrix:
     language: cpp
     compiler: clang
     env:
+      - COMPILER_NAME=clang-MacOS
       - BUILD_TYPE=Release
       - CONAN_BUILD_TYPE=Release
       - COMPILER_LIBCXX=libc++
@@ -94,7 +98,7 @@ script:
   - make
   - cd bin
   - if [ $TRAVIS_OS_NAME == osx ]; then cp -f *.dylib /usr/local/lib; fi
-  - ./JWTUtilsTest
+  - ./JWTUtilsTest --gtest_output=xml:JWTUtilsTest.xml
   - cd ..
   - cd test
   - cd JWTUtilsTest
@@ -148,12 +152,17 @@ script:
   - cd ..
 
 deploy:
-  provider: script
-  script: bash ./deploy.sh -v "${TRAVIS_TAG:1}"
-  skip_cleanup: true
-  on:
-    tags: true
-    condition: "$BUILD_TYPE != Coverage"
+  - provider: script
+    script: bash ./ci/deploy.sh -v "${TRAVIS_TAG:1}"
+    skip_cleanup: true
+    on:
+      tags: true
+      condition: "$BUILD_TYPE != Coverage"
+  - provider: script
+    script: bash ./ci/build_docs.sh -o "systelab" -s "cpp-jwt-utils" -t "${TRAVIS_TAG}" -c "Travis" -n "${COMPILER_NAME} ${BUILD_TYPE}" -j "${TRAVIS_JOB_ID}" -p "JWTUtilsTest"
+    skip_cleanup: true
+    on:
+      tags: true
 
 after_success:
   - if [[ $TRAVIS_OS_NAME == linux && $BUILD_TYPE == Coverage ]]; then bash <(curl -s https://codecov.io/bash); fi

@@ -1,5 +1,13 @@
 # Summary of changes
 
+## Changes for version 1.1.6 (30 Mar 2021)
+
+### Bug Fixes
+
+- Upload generated packages to CSW JFrogPlatform
+- Moved VS2017 configurations to work with GoogleTest 1.10.0
+
+
 ## Changes for version 1.1.5 (25 Feb 2021)
 
 ### Bug Fixes

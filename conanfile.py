@@ -12,7 +12,7 @@ class JWTUtilsConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     options = {"gtest": ["1.7.0", "1.8.1", "1.10.0"], "openssl": ["1.0.2n", "1.0.2s", "1.1.1g", "1.1.1k"]}
     default_options = {"gtest":"1.10.0", "openssl":"1.1.1k"}
-    exports_sources = "*", "!build-*", "!*.yml", "!*.md", "!*.in", "!ci", "!.gitattributes", "!.gitignore", "!LICENSE"
+    exports_sources = "*", "!test/JWTUtilsTestUtilities", "!build-*", "!*.yml", "!*.md", "!*.in", "!ci", "!.gitattributes", "!.gitignore", "!LICENSE"
 
     def configure(self):
         self.options["RapidJSONAdapter"].gtest = self.options.gtest

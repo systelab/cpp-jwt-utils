@@ -10,21 +10,23 @@ class JWTUtilsConan(ConanFile):
     license = "MIT"
     generators = "cmake_find_package"
     settings = "os", "compiler", "build_type", "arch"
-    options = {"gtest": ["1.7.0", "1.8.1", "1.10.0"], "openssl": ["1.0.2n", "1.0.2s", "1.1.1g"]}
-    default_options = {"gtest":"1.10.0", "openssl":"1.1.1g"}
-    exports_sources = "*"
+    options = {"gtest": ["1.7.0", "1.8.1", "1.10.0"], "openssl": ["1.0.2n", "1.0.2s", "1.1.1g", "1.1.1k"]}
+    default_options = {"gtest":"1.10.0", "openssl":"1.1.1k"}
+    exports_sources = "*", "!build-*", "!*.yml", "!*.md", "!*.in", "!ci", "!.gitattributes", "!.gitignore", "!LICENSE"
 
     def configure(self):
         self.options["RapidJSONAdapter"].gtest = self.options.gtest
         self.options["openssl"].shared = True
 
     def requirements(self):
-        self.requires("RapidJSONAdapter/1.1.2@systelab/stable")
+        self.requires("RapidJSONAdapter/1.1.5@systelab/stable")
 
         if self.options.openssl == "1.0.2n":
             self.requires("OpenSSL/1.0.2n@conan/stable")
         elif self.options.openssl == "1.1.1g":
             self.requires("openssl/1.1.1g#58b78c1738d0cff868861e077e707ca4")
+        elif self.options.openssl == "1.1.1k":
+            self.requires("openssl/1.1.1k#64a45e7ba6f25fd93cec135fe3b3d958")
         else:
             self.requires(("openssl/%s") % self.options.openssl)
 

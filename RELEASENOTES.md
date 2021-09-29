@@ -1,5 +1,16 @@
 # Summary of changes
 
+## Changes for version 1.1.7 (29 Sep 2021)
+
+### Bug Fixes
+
+- Moved continuous integration to Jenkins
+- Deploy conan package into remote specific for C++ task force
+- Fixed use of "export_sources" definition in conan recipes
+- Moved RapidJSONAdapter dependency to version 1.1.5
+- Added configurations for the Snow project into continuous integration
+
+
 ## Changes for version 1.1.6 (30 Mar 2021)
 
 ### Bug Fixes

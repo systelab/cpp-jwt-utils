@@ -25,12 +25,13 @@ class JWTUtilsTestUtilitiesConan(ConanFile):
         elif self.options.gtest == "1.8.1":
             self.requires("gtest/1.8.1")
         else:
-            self.requires("gtest/1.10.0")
+            self.requires("gtest/1.10.0#0c895f60b461f8fee0da53a84d659131")
 
         if ("%s" % self.version) == "None":
-            self.requires("JWTUtils/%s@systelab/stable" % os.environ['VERSION'])
+            channel = os.environ['CHANNEL'] if "CHANNEL" in os.environ else "stable"
+            self.requires(f"JWTUtils/{os.environ['VERSION']}@systelab/{channel}")
         else:
-            self.requires("JWTUtils/%s@systelab/stable" % self.version)
+            self.requires(f"JWTUtils/{self.version}@systelab/{self.channel}")
 
     def build(self):
         cmake = CMake(self)

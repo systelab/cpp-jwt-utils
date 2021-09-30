@@ -19,7 +19,7 @@ class JWTUtilsConan(ConanFile):
         self.options["openssl"].shared = True
 
     def requirements(self):
-        self.requires("RapidJSONAdapter/1.1.5@systelab/stable")
+        self.requires("RapidJSONAdapter/1.1.6@systelab/stable")
 
         if self.options.openssl == "1.0.2n":
             self.requires("OpenSSL/1.0.2n@conan/stable")
@@ -35,8 +35,10 @@ class JWTUtilsConan(ConanFile):
             self.build_requires("gtest/1.7.0@systelab/stable")
         elif self.options.gtest == "1.8.1":
             self.build_requires("gtest/1.8.1")
-        else:
+        elif self.options.gtest == "1.10.0":
             self.build_requires("gtest/1.10.0#0c895f60b461f8fee0da53a84d659131")
+        else:
+            self.build_requires(f"gtest/{self.options.gtest}")
 
     def build(self):
         cmake = CMake(self)

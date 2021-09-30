@@ -1,5 +1,12 @@
 # Summary of changes
 
+## Changes for version 1.1.9 (30 Sep 2021)
+
+### Bug Fixes
+
+- Moved RapidJSONAdapter dependency to version 1.1.6
+
+
 ## Changes for version 1.1.8 (30 Sep 2021)
 
 ### Bug Fixes

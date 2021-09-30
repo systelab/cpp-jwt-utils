@@ -24,8 +24,10 @@ class JWTUtilsTestUtilitiesConan(ConanFile):
             self.requires("gtest/1.7.0@systelab/stable")
         elif self.options.gtest == "1.8.1":
             self.requires("gtest/1.8.1")
-        else:
+        elif self.options.gtest == "1.10.0":
             self.requires("gtest/1.10.0#0c895f60b461f8fee0da53a84d659131")
+        else:
+            self.requires(f"gtest/{self.options.gtest}")
 
         if ("%s" % self.version) == "None":
             channel = os.environ['CHANNEL'] if "CHANNEL" in os.environ else "stable"

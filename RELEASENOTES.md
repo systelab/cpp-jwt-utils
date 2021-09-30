@@ -13,7 +13,6 @@
 
 - Moved continuous integration to Jenkins
 - Deploy conan package into remote specific for C++ task force
-- Fixed use of "export_sources" definition in conan recipes
 - Moved RapidJSONAdapter dependency to version 1.1.5
 - Added configurations for the Snow project into continuous integration
 

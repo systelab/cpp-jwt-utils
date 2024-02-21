@@ -68,6 +68,9 @@ pipeline
 			{
 				script
 				{
+					def dependencies = ["openssl/3.0.12@#1670458f93ec138c3bb6afc65a1cd667", "gtest/1.14.0@#4372c5aed2b4018ed9f9da3e218d18b3"]
+					def overrides = dependencies.inject("", {string, value -> string << " --require-override=" << value})
+
 					archs.each
 					{ arch ->
 						configs.each
@@ -75,14 +78,14 @@ pipeline
 							stage('Build ${config}|${arch}')
 							{
 								def buildFolder = "build-${config}-${arch}"
-								bat "conan install . -if ${buildFolder} --profile=${profile} -s arch=${arch} -s build_type=${config}"
+								bat "conan install . -if ${buildFolder} --profile=${profile} -s arch=${arch} -s build_type=${config} ${overrides}"
 								bat "conan build . -bf ${buildFolder}" 
 								bat "conan export-pkg . JWTUtils/${version}@systelab/${channel} --profile=${profile} -s arch=${arch} -s build_type=${config} -bf ${buildFolder} --force"
-								bat "bin/${props.conanBuildType}/JWTUtilsTest.exe --gtest_output=xml:JWTUtilsTest.xml"
+								bat "bin/${config}/JWTUtilsTest.exe --gtest_output=xml:JWTUtilsTest.xml"
 
 								dir("test/JWTUtilsTestUtilities")
 								{
-									bat "conan install .. -if ${buildFolder} --profile=${profile} -s arch=${arch} -s build_type=${config}"
+									bat "conan install .. -if ${buildFolder} --profile=../../${profile} -s arch=${arch} -s build_type=${config} -e VERSION=${version} -e CHANNEL=${channel} ${overrides}"
 									bat "conan build . -bf ${buildFolder}" 
 									bat "conan export-pkg . JWTUtilsTestUtilities/${version}@systelab/${channel} --profile=${profile} -s arch=${arch} -s build_type=${config} -bf ${buildFolder} --force"
 								}

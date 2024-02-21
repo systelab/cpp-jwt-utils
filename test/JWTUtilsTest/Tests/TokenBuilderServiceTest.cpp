@@ -67,7 +67,7 @@ namespace systelab { namespace jwt { namespace unit_test {
 		ASSERT_EQ(GetParam().expectedToken, m_service->buildJWT(GetParam().key, GetParam().claims));
 	}
 
-	INSTANTIATE_TEST_CASE_P(Test, TokenBuilderServiceTest, testing::ValuesIn(tokenBuilderServiceTestData));
+	INSTANTIATE_TEST_SUITE_P(Test, TokenBuilderServiceTest, testing::ValuesIn(tokenBuilderServiceTestData));
 
 }}}
 

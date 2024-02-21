@@ -89,7 +89,7 @@ namespace systelab { namespace jwt { namespace unit_test {
 		ASSERT_THAT(claims, UnorderedElementsAreArray(GetParam().expectedClaims));
 	}
 
-	INSTANTIATE_TEST_CASE_P(Test, TokenParserServiceTest, testing::ValuesIn(tokenValidatorServiceTestData));
+	INSTANTIATE_TEST_SUITE_P(Test, TokenParserServiceTest, testing::ValuesIn(tokenValidatorServiceTestData));
 
 }}}
 

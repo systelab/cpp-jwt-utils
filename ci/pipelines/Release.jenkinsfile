@@ -19,7 +19,7 @@ pipeline
 	parameters
 	{
 		string(	name: 'version',
-				description: 'Version to build (must match the name of the tag that will be checked out), leave blank for ',
+				description: 'Version to build (must match the name of the tag that will be checked out), leave blank for checkout of current branch',
 				defaultValue: '' )
 
 		booleanParam( name: 'stable',
@@ -44,14 +44,21 @@ pipeline
 		{
 			steps
 			{
-				script 
-				{
-					version = params.version
-					channel = params.stable ? "stable" : "testing"
-				}
 				deleteDir()
 				configureConanRemotes()
-				checkoutSourceCodeFromTag(version)
+				script 
+				{
+					if (params.version == '')
+					{
+						checkoutSourceCode()
+					}
+					else
+					{
+						checkoutSourceCodeFromTag(version)
+						version = params.version
+					}
+					channel = params.stable ? "stable" : "testing"
+				}
 			}
 		}
 		

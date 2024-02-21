@@ -80,14 +80,14 @@ pipeline
 								def buildFolder = "build-${config}-${arch}"
 								bat "conan install . -if ${buildFolder} --profile=${profile} -s arch=${arch} -s build_type=${config} ${overrides}"
 								bat "conan build . -bf ${buildFolder}" 
-								bat "conan export-pkg . JWTUtils/${version}@systelab/${channel} --profile=${profile} -s arch=${arch} -s build_type=${config} -bf ${buildFolder} --force"
+								bat "conan export-pkg . JWTUtils/${version}@systelab/${channel} -bf ${buildFolder} --force"
 								bat "bin/${config}/JWTUtilsTest.exe --gtest_output=xml:JWTUtilsTest.xml"
 
 								dir("test/JWTUtilsTestUtilities")
 								{
 									bat "conan install .. -if ${buildFolder} --profile=../../${profile} -s arch=${arch} -s build_type=${config} -e VERSION=${version} -e CHANNEL=${channel} ${overrides}"
 									bat "conan build . -bf ${buildFolder}" 
-									bat "conan export-pkg . JWTUtilsTestUtilities/${version}@systelab/${channel} --profile=${profile} -s arch=${arch} -s build_type=${config} -bf ${buildFolder} --force"
+									bat "conan export-pkg . JWTUtilsTestUtilities/${version}@systelab/${channel} -bf ${buildFolder} --force"
 								}
 							}
 						}

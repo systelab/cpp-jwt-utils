@@ -77,8 +77,10 @@ pipeline
 								bat "conan build . -bf ${buildFolder}" 
 								bat "conan export-pkg . JWTUtils/${version}@systelab/${channel} -bf ${buildFolder} --force"
 								bat "conan test ./test_package/conanfile.py JWTUtils/${version}@systelab/${channel} --profile=${profile} -s arch=${arch} -s build_type=${config}"
-								bat "./${buildFolder}/bin/${config}/JWTUtilsTest.exe --gtest_output=xml:JWTUtilsTest.xml"
-
+								dir("${buildFolder}/bin/${config}/")
+								{
+									bat "JWTUtilsTest.exe --gtest_output=xml:JWTUtilsTest.xml"
+								}
 								dir("test/JWTUtilsTestUtilities")
 								{
 									bat "conan install . -if ${buildFolder} --profile=../../${profile} -s arch=${arch} -s build_type=${config} -e VERSION=${version} -e CHANNEL=${channel}"

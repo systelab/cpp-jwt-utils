@@ -70,14 +70,14 @@ pipeline
 					{ arch ->
 						configs.each
 						{ config ->
-							stage('Build ${config}|${arch}')
+							stage("Build ${config}|${arch}")
 							{
-								def buildFolder = "build-${config}-${arch}"
+								def buildFolder = "build/${config}-${arch}"
 								bat "conan install . -if ${buildFolder} --profile=${profile} -s arch=${arch} -s build_type=${config}"
 								bat "conan build . -bf ${buildFolder}" 
 								bat "conan export-pkg . JWTUtils/${version}@systelab/${channel} -bf ${buildFolder} --force"
 								bat "conan test ./test_package/conanfile.py JWTUtils/${version}@systelab/${channel} --profile=${profile} -s arch=${arch} -s build_type=${config}"
-								bat "${buildFolder}/bin/${config}/JWTUtilsTest.exe --gtest_output=xml:JWTUtilsTest.xml"
+								bat "./${buildFolder}/bin/${config}/JWTUtilsTest.exe --gtest_output=xml:JWTUtilsTest.xml"
 
 								dir("test/JWTUtilsTestUtilities")
 								{

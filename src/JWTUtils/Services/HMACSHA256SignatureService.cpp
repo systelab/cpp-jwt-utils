@@ -21,7 +21,7 @@ namespace systelab { namespace jwt {
 		unsigned int len = 32;
 		unsigned char hash[32];
 
-		HMAC(EVP_sha256(), &key[0], static_cast<int>(key.length()), static_cast<unsigned char*>(&msg[0]), msg.length(), hash, &len);
+		HMAC(EVP_sha256(), &key[0], reinterpret_cast<int>(key.length()), reinterpret_cast<unsigned char*>(&msg[0]), msg.length(), hash, &len);
 
 		std::stringstream ss;
 		ss << std::setfill('0');

@@ -113,7 +113,7 @@ pipeline
 	{
 		always
 		{
-			junit allowEmptyResults: true, testResults: "build*/JWTUtilsTest.xml"
+			junit allowEmptyResults: true, testResults: "build/**/JWTUtilsTest.xml"
 			script
 			{
 				currentBuild.description = "${version}/${channel}"

@@ -21,22 +21,7 @@ namespace systelab { namespace jwt {
 		unsigned int len = 32;
 		unsigned char hash[32];
 
-#if (OPENSSL_VERSION_NUMBER >= 0x30000000L)
 		HMAC(EVP_sha256(), &key[0], (int)key.length(), (unsigned char*)&msg[0], msg.length(), hash, &len);
-#elif (OPENSSL_VERSION_NUMBER >= 0x10101000L)
-		HMAC_CTX* hmac = HMAC_CTX_new();
-		HMAC_Init_ex(hmac, &key[0], (int)key.length(), EVP_sha256(), NULL);
-		HMAC_Update(hmac, (unsigned char*)&msg[0], msg.length());
-		HMAC_Final(hmac, hash, &len);
-		HMAC_CTX_free(hmac);
-#else
-		HMAC_CTX hmac;
-		HMAC_CTX_init(&hmac);
-		HMAC_Init_ex(&hmac, &key[0], (int)key.length(), EVP_sha256(), NULL);
-		HMAC_Update(&hmac, (unsigned char*)&msg[0], msg.length());
-		HMAC_Final(&hmac, hash, &len);
-		HMAC_CTX_cleanup(&hmac);
-#endif
 
 		std::stringstream ss;
 		ss << std::setfill('0');

@@ -72,7 +72,7 @@ namespace systelab { namespace jwt { namespace unit_test {
 		ASSERT_FALSE(m_parserService->validateJWT(token, anotherKey, extractedClaims));
 	}
 
-	INSTANTIATE_TEST_CASE_P(Test, JWTRoundtripTest, testing::ValuesIn(jwtRoundtripTestData));
+	INSTANTIATE_TEST_SUITE_P(Test, JWTRoundtripTest, testing::ValuesIn(jwtRoundtripTestData));
 
 }}}
 

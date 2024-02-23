@@ -16,25 +16,27 @@ environment:
     CYG_ROOT: C:\cygwin64
 
   matrix:
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
+    arch: x86_64
+    platform: x64
+    visual_studio: Visual Studio 17 2022
+    compiler_toolset: v143
+
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
     arch: x86_64
     platform: x64
     visual_studio: Visual Studio 16 2019
     compiler_toolset: v142
-    gtest: 1.10.0
-    OpenSSL: 1.1.1g
 
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     arch: x86
     platform: Win32
     visual_studio: Visual Studio 15 2017
     compiler_toolset: v141
-    gtest: 1.10.0
-    OpenSSL: 1.0.2n
 
 install:
   - "SET PATH=%PYTHON%;%PYTHON%/Scripts/;%PATH%"
-  - pip.exe install conan
+  - pip.exe install conan==1.62.0
   - conan user
   - conan remote add systelab-public https://csw.jfrog.io/artifactory/api/conan/cpp-conan-production-local --insert 0
   - conan --version
@@ -42,21 +44,21 @@ install:
 build_script:
   - md build
   - cd build
-  - conan install .. -s build_type=%CONFIGURATION% -s compiler.toolset=%COMPILER_TOOLSET% -s arch=%ARCH% -o gtest=%GTEST% -o openssl=%OPENSSL%
+  - conan install .. -s build_type=%CONFIGURATION% -s compiler.toolset=%COMPILER_TOOLSET% -s arch=%ARCH%
   - cmake .. -G "%VISUAL_STUDIO%" -A %PLATFORM%
   - msbuild JWTUtils.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"  
-  - conan export-pkg ../conanfile.py JWTUtils/%APPVEYOR_BUILD_VERSION%@systelab/stable -s build_type=%CONFIGURATION% -s compiler.toolset=%COMPILER_TOOLSET% -s arch=%ARCH% -o gtest=%GTEST% -o openssl=%OPENSSL%
-  - conan test ../test_package/conanfile.py JWTUtils/%APPVEYOR_BUILD_VERSION%@systelab/stable -s build_type=%CONFIGURATION% -s compiler.toolset=%COMPILER_TOOLSET% -s arch=%ARCH% -o gtest=%GTEST% -o openssl=%OPENSSL%
+  - conan export-pkg ../conanfile.py JWTUtils/%APPVEYOR_BUILD_VERSION%@systelab/stable -s build_type=%CONFIGURATION% -s compiler.toolset=%COMPILER_TOOLSET% -s arch=%ARCH%
+  - conan test ../test_package/conanfile.py JWTUtils/%APPVEYOR_BUILD_VERSION%@systelab/stable -s build_type=%CONFIGURATION% -s compiler.toolset=%COMPILER_TOOLSET% -s arch=%ARCH%
   - cd ..
   - cd test
   - cd JWTUtilsTestUtilities
   - md build
   - cd build
-  - conan install .. -s build_type=%CONFIGURATION% -s compiler.toolset=%COMPILER_TOOLSET% -s arch=%ARCH% -e VERSION="%APPVEYOR_BUILD_VERSION%" -o gtest=%GTEST% -o openssl=%OPENSSL%
+  - conan install .. -s build_type=%CONFIGURATION% -s compiler.toolset=%COMPILER_TOOLSET% -s arch=%ARCH% -e VERSION="%APPVEYOR_BUILD_VERSION%"
   - cmake .. -G "%VISUAL_STUDIO%" -A %PLATFORM%
   - msbuild JWTUtilsTestUtilities.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-  - conan export-pkg ../conanfile.py JWTUtilsTestUtilities/%APPVEYOR_BUILD_VERSION%@systelab/stable -s build_type=%CONFIGURATION% -s compiler.toolset=%COMPILER_TOOLSET% -s arch=%ARCH% -o gtest=%GTEST% -o openssl=%OPENSSL%
-  - conan test ../test_package/conanfile.py JWTUtilsTestUtilities/%APPVEYOR_BUILD_VERSION%@systelab/stable -s build_type=%CONFIGURATION% -s compiler.toolset=%COMPILER_TOOLSET% -s arch=%ARCH% -o gtest=%GTEST% -o openssl=%OPENSSL%
+  - conan export-pkg ../conanfile.py JWTUtilsTestUtilities/%APPVEYOR_BUILD_VERSION%@systelab/stable -s build_type=%CONFIGURATION% -s compiler.toolset=%COMPILER_TOOLSET% -s arch=%ARCH%
+  - conan test ../test_package/conanfile.py JWTUtilsTestUtilities/%APPVEYOR_BUILD_VERSION%@systelab/stable -s build_type=%CONFIGURATION% -s compiler.toolset=%COMPILER_TOOLSET% -s arch=%ARCH%
   - cd ..
   - cd ..
   - cd ..

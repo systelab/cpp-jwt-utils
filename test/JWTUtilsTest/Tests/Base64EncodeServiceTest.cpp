@@ -61,6 +61,6 @@ namespace systelab { namespace jwt { namespace unit_test {
 		ASSERT_EQ(GetParam().decodedString, m_service->decodeString(GetParam().encodedString));
 	}
 
-	INSTANTIATE_TEST_CASE_P(Test, Base64EncodeServiceTest, testing::ValuesIn(base64EncodeServiceTestData));
+	INSTANTIATE_TEST_SUITE_P(Test, Base64EncodeServiceTest, testing::ValuesIn(base64EncodeServiceTestData));
 
 }}}

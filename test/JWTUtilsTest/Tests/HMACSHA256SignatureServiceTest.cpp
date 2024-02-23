@@ -53,6 +53,6 @@ namespace systelab { namespace jwt { namespace unit_test {
 		ASSERT_EQ(GetParam().expectedHMACSHA256, m_service->signMessage(GetParam().key, GetParam().message));
 	}
 
-	INSTANTIATE_TEST_CASE_P(Test, HMACSHA256SignatureServiceTest, testing::ValuesIn(hmacsha256SignatureTestData));
+	INSTANTIATE_TEST_SUITE_P(Test, HMACSHA256SignatureServiceTest, testing::ValuesIn(hmacsha256SignatureTestData));
 	
 }}}

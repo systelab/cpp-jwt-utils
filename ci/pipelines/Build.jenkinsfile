@@ -74,7 +74,7 @@ pipeline
 							stage("Build ${config}|${arch}")
 							{
 								def buildFolder = "build/${config}-${arch}"
-								bat "conan install . --install-folder ${buildFolder} --profile=${profile} -s arch=${arch} -s build_type=${config}"
+								bat "conan install . --install-folder ${buildFolder} --profile=${profile} -s arch=${arch} -s build_type=${config} --update"
 								bat "conan build . --build-folder ${buildFolder}" 
 								bat "conan export-pkg . JWTUtils/${version}@systelab/${channel} --build-folder ${buildFolder} --force"
 								bat "conan test ./test_package/conanfile.py JWTUtils/${version}@systelab/${channel} --profile=${profile} -s arch=${arch} -s build_type=${config}"
@@ -84,7 +84,7 @@ pipeline
 								}
 								dir("test/JWTUtilsTestUtilities")
 								{
-									bat "conan install . --install-folder ${buildFolder} --profile=../../${profile} -s arch=${arch} -s build_type=${config} -e VERSION=${version} -e CHANNEL=${channel}"
+									bat "conan install . --install-folder ${buildFolder} --profile=../../${profile} -s arch=${arch} -s build_type=${config} -e VERSION=${version} -e CHANNEL=${channel} --update"
 									bat "conan build . --build-folder ${buildFolder}" 
 									bat "conan export-pkg . JWTUtilsTestUtilities/${version}@systelab/${channel} --build-folder ${buildFolder} --force"
 									bat "conan test ./test_package/conanfile.py JWTUtilsTestUtilities/${version}@systelab/${channel} --profile=../../${profile} -s arch=${arch} -s build_type=${config}"

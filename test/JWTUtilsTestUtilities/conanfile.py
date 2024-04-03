@@ -14,7 +14,10 @@ class JWTUtilsTestUtilitiesConan(ConanFile):
 	exports_sources = "*", "!build*", "!test_package*"
 
 	def requirements(self):
-		self.requires("gtest/1.10.0#e3ded0a841d16e07e6648e38aaa8d8ce")
+		if self.settings.arch == "x86":
+			self.requires("gtest/1.10.0#e3ded0a841d16e07e6648e38aaa8d8ce")
+		else:
+			self.requires("gtest/1.10.0#0c895f60b461f8fee0da53a84d659131")
 
 		if ("%s" % self.version) == "None":
 			channel = os.environ['CHANNEL'] if "CHANNEL" in os.environ else "stable"

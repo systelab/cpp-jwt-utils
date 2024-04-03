@@ -20,7 +20,10 @@ class JWTUtilsConan(ConanFile):
 		self.requires("RapidJSONAdapter/1.1.6@systelab/stable")
 		self.requires("zlib/1.2.13#13c96f538b52e1600c40b88994de240f", override=True)
 		self.requires("openssl/3.0.12#1670458f93ec138c3bb6afc65a1cd667")
-		self.requires("gtest/1.10.0#e3ded0a841d16e07e6648e38aaa8d8ce")
+		if self.settings.arch == "x86":
+			self.requires("gtest/1.10.0#e3ded0a841d16e07e6648e38aaa8d8ce")
+		else:
+			self.requires("gtest/1.10.0#0c895f60b461f8fee0da53a84d659131")
 
 	def build(self):
 		cmake = CMake(self)

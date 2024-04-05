@@ -4,9 +4,12 @@ def profile = "vs2019.conanprofile"
 def archs = ['x86', 'x86_64']
 def configs = ['Debug', 'Release']
 
-library identifier: "cpp-jenkins-pipelines@master", retriever: modernSCM(
-  [$class: "GitSCMSource",
-   remote: "https://github.com/systelab/cpp-jenkins-pipelines.git"])
+library identifier: "jenkins-pipeline-utils@1.0.10",
+		retriever: modernSCM([
+			$class: "GitSCMSource",
+			remote: "https://bitbucket.org/Systelab/jenkins-pipeline-utils.git",
+			credentialsId: "BitbucketWerfen"
+		])
    
 pipeline
 {
@@ -17,7 +20,7 @@ pipeline
 
 	parameters
 	{
-		string(	name: 'version',
+		string(	name: 'tag',
 				description: 'Version to build (must match the name of the tag that will be checked out), leave blank for checkout of current branch',
 				defaultValue: '',
 				trim: true)
@@ -47,14 +50,14 @@ pipeline
 				deleteDir()
 				script 
 				{
-					if (params.version == '')
+					if (params.tag == '')
 					{
-						checkoutSourceCode()
+						checkoutFromGIT()
 					}
 					else
 					{
-						version = params.version
-						checkoutSourceCodeFromTag(version)
+						version = params.tag
+						checkoutFromGIT(scm.userRemoteConfigs[0].url, "v${version}", true)
 					}
 					channel = params.stable ? "stable" : "testing"
 				}
@@ -119,6 +122,7 @@ pipeline
 			{
 				currentBuild.description = "${version}/${channel}"
 			}
+			deleteDir()
 		}
 	}
 }

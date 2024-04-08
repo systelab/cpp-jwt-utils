@@ -1,5 +1,15 @@
 # Summary of changes
 
+## Changes for version 1.1.10 (8 Apr 2024)
+
+### Security
+
+- Upgraded openssl to 3.0.12
+
+### Enhancements
+
+- Refactored pipeline
+
 ## Changes for version 1.1.9 (30 Sep 2021)
 
 ### Bug Fixes

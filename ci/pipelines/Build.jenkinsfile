@@ -1,18 +1,20 @@
-def channel = "testing"
 def version = "0.0.0"
 def profile = "vs2022.conanprofile"
 def archs = ['x86', 'x86_64']
 def configs = ['Debug', 'Release']
 
-library identifier: "cpp-jenkins-pipelines@master", retriever: modernSCM(
-  [$class: "GitSCMSource",
-   remote: "https://github.com/systelab/cpp-jenkins-pipelines.git"])
-   
+@Library('aid-pipeline-utils@1.0.23') _
+
 pipeline
 {
 	agent
 	{
 		label 'shared-lib-build'
+	}
+
+	environment
+	{
+		PATH = "${env.USERPROFILE}\\.venvs\\conan2\\Scripts;${env.PATH}"
 	}
 
 	parameters
@@ -21,10 +23,6 @@ pipeline
 				description: 'Version to build (must match the name of the tag that will be checked out), leave blank for checkout of current branch',
 				defaultValue: '' )
 
-		booleanParam( name: 'stable',
-					  description: 'Show if generated library should be uploaded as stable or testing',
-					  defaultValue: false )
-		
 		booleanParam( name: 'uploadPackage',
 					  description: 'Whether or not to upload testing conan package',
 					  defaultValue: false )
@@ -55,13 +53,12 @@ pipeline
 						checkoutSourceCodeFromTag(version)
 						version = params.version
 					}
-					channel = params.stable ? "stable" : "testing"
 				}
 			}
 		}
 		
-		stage('Build')
-		{	
+		stage('Build packages')
+		{
 			steps
 			{
 				script
@@ -70,23 +67,38 @@ pipeline
 					{ arch ->
 						configs.each
 						{ config ->
-							stage("Build ${config}|${arch}")
+							stage("Package ${config}|${arch}")
 							{
 								def buildFolder = "build/${config}-${arch}"
-								bat "conan install . --install-folder ${buildFolder} --profile=${profile} -s arch=${arch} -s build_type=${config}"
-								bat "conan build . --build-folder ${buildFolder}" 
-								bat "conan export-pkg . JWTUtils/${version}@systelab/${channel} --build-folder ${buildFolder} --force"
-								bat "conan test ./test_package/conanfile.py JWTUtils/${version}@systelab/${channel} --profile=${profile} -s arch=${arch} -s build_type=${config}"
-								dir("${buildFolder}/bin/${config}/")
+								def conanArgs = "--profile:all=${profile} --settings:all arch=${arch} --settings:all build_type=${config}"
+								
+								bat "conan build . --output-folder ${buildFolder} ${conanArgs}"
+								bat "conan export-pkg . --version=${version} --output-folder ${buildFolder} ${conanArgs}"
+								bat "conan test test_package jwt-utils/${version} ${conanArgs}"
+								
+								bat "conan create test/JWTUtilsTestUtilities --version=${version} ${conanArgs}"
+							}
+						}
+					}
+				}
+			}
+		}
+
+		stage('Unit tests')
+		{
+			steps
+			{
+				script
+				{
+					archs.each
+					{ arch ->
+						configs.each
+						{ config ->
+							stage("Test ${config}|${arch}")
+							{
+								dir("build/${config}-${arch}/bin/${config}/")
 								{
 									bat "JWTUtilsTest.exe --gtest_output=xml:JWTUtilsTest.xml"
-								}
-								dir("test/JWTUtilsTestUtilities")
-								{
-									bat "conan install . --install-folder ${buildFolder} --profile=../../${profile} -s arch=${arch} -s build_type=${config} -e VERSION=${version} -e CHANNEL=${channel}"
-									bat "conan build . --build-folder ${buildFolder}" 
-									bat "conan export-pkg . JWTUtilsTestUtilities/${version}@systelab/${channel} --build-folder ${buildFolder} --force"
-									bat "conan test ./test_package/conanfile.py JWTUtilsTestUtilities/${version}@systelab/${channel} --profile=../../${profile} -s arch=${arch} -s build_type=${config}"
 								}
 							}
 						}
@@ -103,8 +115,8 @@ pipeline
 			}
 			steps
 			{
-				bat "conan upload JWTUtils/${version}@systelab/${channel} --all -r systelab-conan-local --force"
-				bat "conan upload JWTUtilsTestUtilities/${version}@systelab/${channel} --all -r systelab-conan-local --force"
+				bat "conan upload jwt-utils/${version} --remote aid-conan-production-local --confirm --force"
+				bat "conan upload jwt-utils-test-utilities/${version} --remote aid-conan-production-local --confirm --force"
 			}
 		}	
 	}
@@ -116,7 +128,7 @@ pipeline
 			junit allowEmptyResults: true, testResults: "build/**/JWTUtilsTest.xml"
 			script
 			{
-				currentBuild.description = "${version}/${channel}"
+				currentBuild.description = "${version}"
 			}
 		}
 	}

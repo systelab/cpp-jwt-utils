@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.2)
 
 # Find external dependencies
-find_package(openssl)
-find_package(RapidJSONAdapter)
+find_package(OpenSSL)
+find_package(rapidjson-adapter)
 
 # Configure preprocessor definitions
 add_compile_options(-DRAPIDJSON_HAS_STDSTRING=1)
@@ -15,7 +15,7 @@ set(JWT_UTILS JWTUtils)
 file(GLOB_RECURSE JWT_UTILS_SRC "*.cpp")
 file(GLOB_RECURSE JWT_UTILS_HDR "*.h")
 add_library(${JWT_UTILS} STATIC ${JWT_UTILS_SRC} ${JWT_UTILS_HDR})
-target_link_libraries(${JWT_UTILS} openssl::openssl RapidJSONAdapter::RapidJSONAdapter)
+target_link_libraries(${JWT_UTILS} OpenSSL::SSL OpenSSL::Crypto rapidjson-adapter::rapidjson-adapter)
 
 #Configure source groups
 foreach(FILE ${JWT_UTILS_SRC} ${JWT_UTILS_HDR}) 

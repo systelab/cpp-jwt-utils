@@ -1,6 +1,5 @@
 [![Build Status](https://travis-ci.org/systelab/cpp-jwt-utils.svg?branch=master)](https://travis-ci.org/systelab/cpp-jwt-utils)
 [![Build status](https://ci.appveyor.com/api/projects/status/jtbc93k8i6vtnx56?svg=true)](https://ci.appveyor.com/project/systelab/cpp-jwt-utils)
-[![codecov](https://codecov.io/gh/systelab/cpp-jwt-utils/branch/master/graph/badge.svg)](https://codecov.io/gh/systelab/cpp-jwt-utils)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/ac813b263f804fcc843ded14e011a5d1)](https://www.codacy.com/gh/systelab/cpp-jwt-utils/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=systelab/cpp-jwt-utils&amp;utm_campaign=Badge_Grade)
 
 
@@ -17,7 +16,7 @@ This library is designed to be installed by making use of [Conan](https://conan.
 
 ```python
 def requirements(self):
-   self.requires("JWTUtils/1.0.0@systelab/stable")
+   self.requires("jwt-utils/1.0.0")
 ```
 
 > Version number of this code snipped is set just as an example. Replace it for the desired package to retrieve.

@@ -1,42 +1,62 @@
-from conans import ConanFile, CMake, tools
+import os
+from conan import ConanFile
+from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain
+from conan.tools.files import copy, collect_libs
+
+required_conan_version = ">=2.0.0"
 
 
 class JWTUtilsConan(ConanFile):
-	name = "JWTUtils"
+	name = "jwt-utils"
 	description = "C++ JSON Web Token Utilities"
 	url = "https://github.com/systelab/cpp-jwt-utils"
 	homepage = "https://github.com/systelab/cpp-jwt-utils"
 	author = "CSW <csw@werfen.com>"
 	topics = ("conan", "jwt", "utils", "security")
 	license = "MIT"
-	generators = "cmake_find_package"
 	settings = "os", "compiler", "build_type", "arch"
-	exports_sources = "*", "!test/JWTUtilsTestUtilities", "!build*", "!*.yml", "!*.xml", "!*.md", "!*.in", "!ci", "!.gitattributes", "!.gitignore", "!test_package*"
+
+	def export_sources(self):
+		copy(self, "CMakeLists.txt", src=self.recipe_folder, dst=self.export_sources_folder)
+		copy(self, "src/*", src=self.recipe_folder, dst=self.export_sources_folder)
+		copy(self, "test/JWTUtilsTest/*", src=self.recipe_folder, dst=self.export_sources_folder)
 
 	def configure(self):
-		self.options["openssl"].shared = True
+		self.options["openssl/*"].shared = True
 
 	def requirements(self):
-		self.requires("RapidJSONAdapter/1.1.9@systelab/stable")
-		self.requires("zlib/1.3.1@#f52e03ae3d251dec704634230cd806a2", override=True)
-		self.requires("openssl/3.0.16@#c4f4f2909b2327e1e8abec3748c1023f")
-		self.requires("gtest/1.14.0#4372c5aed2b4018ed9f9da3e218d18b3")
+		self.requires("rapidjson-adapter/1.2.0")
+		self.requires("openssl/3.0.16")
+		self.requires("gtest/1.14.0")
+
+	def generate(self):
+		tc = CMakeToolchain(self)
+		tc.generate()
+		deps = CMakeDeps(self)
+		deps.generate()
+
+		dep_dst = os.path.join(self.build_folder, "bin", str(self.settings.build_type))
+		for dep in self.dependencies.values():
+			if dep.package_folder is None:
+				continue
+			for bindir in dep.cpp_info.bindirs:
+				copy(self, "*.dll", src=bindir, dst=dep_dst)
+			for libdir in dep.cpp_info.libdirs:
+				copy(self, "*.dylib*", src=libdir, dst=os.path.join(self.build_folder, "bin"))
+				copy(self, "*.so*", src=libdir, dst=os.path.join(self.build_folder, "bin"))
 
 	def build(self):
 		cmake = CMake(self)
 		cmake.configure()
 		cmake.build()
 
-	def imports(self):
-		self.copy("*.dll", dst=("bin/%s" % self.settings.build_type), src="bin")
-		self.copy("*.dylib*", dst="bin", src="lib")
-		self.copy("*.so*", dst="bin", src="lib")
-
 	def package(self):
-		self.copy("*.h", dst="include/JWTUtils", src="src/JWTUtils")
-		self.copy("*JWTUtils.lib", dst="lib", keep_path=False)
-		self.copy("*JWTUtils.pdb", dst="lib", keep_path=False)
-		self.copy("*JWTUtils.a", dst="lib", keep_path=False)
+		copy(self, "*.h", src=os.path.join(self.source_folder, "src", "JWTUtils"), dst=os.path.join(self.package_folder, "include", "JWTUtils"))
+		copy(self, "*JWTUtils.lib", src=self.build_folder, dst=os.path.join(self.package_folder, "lib"), keep_path=False)
+		copy(self, "*JWTUtils.pdb", src=self.build_folder, dst=os.path.join(self.package_folder, "lib"), keep_path=False)
+		copy(self, "*JWTUtils.a", src=self.build_folder, dst=os.path.join(self.package_folder, "lib"), keep_path=False)
 
 	def package_info(self):
-		self.cpp_info.libs = tools.collect_libs(self)
+		self.cpp_info.set_property("cmake_file_name", "JWTUtils")
+		self.cpp_info.set_property("cmake_target_name", "JWTUtils::JWTUtils")
+		self.cpp_info.libs = collect_libs(self)

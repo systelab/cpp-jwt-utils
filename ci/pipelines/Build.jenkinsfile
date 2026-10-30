@@ -21,7 +21,8 @@ pipeline
 	{
 		string(	name: 'version',
 				description: 'Version to build (must match the name of the tag that will be checked out), leave blank for checkout of current branch',
-				defaultValue: '' )
+				defaultValue: '',
+				trim: true )
 
 		booleanParam( name: 'uploadPackage',
 					  description: 'Whether or not to upload testing conan package',
@@ -46,12 +47,12 @@ pipeline
 				{
 					if (params.version == '')
 					{
-						checkoutSourceCode()
+						checkoutFromGIT()
 					}
 					else
 					{
-						checkoutSourceCodeFromTag(version)
 						version = params.version
+						checkoutFromGIT(scm.userRemoteConfigs[0].url, "v${version}", true)
 					}
 				}
 			}

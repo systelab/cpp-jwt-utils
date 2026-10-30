@@ -25,7 +25,7 @@ class JWTUtilsConan(ConanFile):
 		self.options["openssl/*"].shared = True
 
 	def requirements(self):
-		self.requires("rapidjson-adapter/1.2.0")
+		self.requires("rapidjson-adapter/1.2.1")
 		self.requires("openssl/3.0.16")
 		self.requires("gtest/1.14.0")
 

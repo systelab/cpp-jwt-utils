@@ -14,18 +14,20 @@ class JWTUtilsTestUtilitiesConan(ConanFile):
 	author = "CSW <csw@werfen.com>"
 	topics = ("conan", "jwt", "utils", "security")
 	license = "MIT"
+	package_type = "static-library"
 	settings = "os", "compiler", "build_type", "arch"
 
 	def export_sources(self):
 		copy(self, "*", src=self.recipe_folder, dst=self.export_sources_folder, excludes=["build*", "test_package/*"])
 
 	def requirements(self):
-		self.requires("gtest/1.14.0")
+		# Packaged mock headers use gmock macros and derive from jwt-utils interfaces
+		self.requires("gtest/1.14.0", transitive_headers=True, transitive_libs=True)
 
 		if ("%s" % self.version) == "None":
-			self.requires(f"jwt-utils/{os.environ['VERSION']}")
+			self.requires(f"jwt-utils/{os.environ['VERSION']}", transitive_headers=True)
 		else:
-			self.requires(f"jwt-utils/{self.version}")
+			self.requires(f"jwt-utils/{self.version}", transitive_headers=True)
 
 	def generate(self):
 		tc = CMakeToolchain(self)

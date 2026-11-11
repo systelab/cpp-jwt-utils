@@ -12,11 +12,12 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # Find tested package
 find_package(JWTUtils)
+find_package(rapidjson-adapter)
 
 # Configure test package project
 set(JWT_UTILS_PACKAGE_TEST_PROJECT JWTUtilsPackageTest)
 add_executable(${JWT_UTILS_PACKAGE_TEST_PROJECT} JWTUtilsExample.cpp)
-target_link_libraries(${JWT_UTILS_PACKAGE_TEST_PROJECT} JWTUtils::JWTUtils)
+target_link_libraries(${JWT_UTILS_PACKAGE_TEST_PROJECT} JWTUtils::JWTUtils rapidjson-adapter::rapidjson-adapter)
 
 # Register test
 enable_testing()

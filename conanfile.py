@@ -14,6 +14,7 @@ class JWTUtilsConan(ConanFile):
 	author = "CSW <csw@werfen.com>"
 	topics = ("conan", "jwt", "utils", "security")
 	license = "MIT"
+	package_type = "static-library"
 	settings = "os", "compiler", "build_type", "arch"
 
 	def export_sources(self):
@@ -25,9 +26,12 @@ class JWTUtilsConan(ConanFile):
 		self.options["openssl/*"].shared = True
 
 	def requirements(self):
-		self.requires("rapidjson-adapter/1.2.1")
+		self.requires("json-adapter-interface/1.2.1", transitive_headers=True)
 		self.requires("openssl/3.0.16")
-		self.requires("gtest/1.14.0")
+
+	def build_requirements(self):
+		self.test_requires("rapidjson-adapter/1.2.1")
+		self.test_requires("gtest/1.14.0")
 
 	def generate(self):
 		tc = CMakeToolchain(self)

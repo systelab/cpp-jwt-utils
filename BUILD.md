@@ -25,8 +25,8 @@ In order to build the application on Windows for the `Release` configuration, ru
 ``` bash
 > git clone https://github.com/systelab/cpp-jwt-utils
 > conan remote add systelab-public https://csw.jfrog.io/artifactory/api/conan/cpp-conan-production-local
-> conan install . --profile=vs2022.conanprofile -s build_type=Release -s arch=x86_64 -if build/Release_x64
-> conan build . -bf build/Release_x64
+> conan install . --profile:all=vs2022.conanprofile --settings:all build_type=Release --settings:all arch=x86_64 --output-folder build/Release_x64
+> conan build . --profile:all=vs2022.conanprofile --settings:all build_type=Release --settings:all arch=x86_64 --output-folder build/Release_x64
 ```
 
 However, if you want to `Debug` the source code, you will need these commands:
@@ -34,8 +34,8 @@ However, if you want to `Debug` the source code, you will need these commands:
 ``` bash
 > git clone https://github.com/systelab/cpp-jwt-utils
 > conan remote add systelab-public https://csw.jfrog.io/artifactory/api/conan/cpp-conan-production-local
-> conan install . --profile=vs2022.conanprofile -s build_type=Debug -s arch=x86_64 -if build/Debug_x64
-> conan build . -bf build/Debug_x64
+> conan install . --profile:all=vs2022.conanprofile --settings:all build_type=Debug --settings:all arch=x86_64 --output-folder build/Debug_x64
+> conan build . --profile:all=vs2022.conanprofile --settings:all build_type=Debug --settings:all arch=x86_64 --output-folder build/Debug_x64
 ```
 
 ### Linux
@@ -44,7 +44,7 @@ However, if you want to `Debug` the source code, you will need these commands:
 > git clone https://github.com/systelab/cpp-jwt-utils
 > mkdir build && cd build
 > conan remote add systelab-public https://csw.jfrog.io/artifactory/api/conan/cpp-conan-production-local
-> conan install ..
-> cmake .. -DCMAKE_BUILD_TYPE=[Debug | Coverage | Release]
+> conan install .. --output-folder . --settings:all build_type=[Debug | Release]
+> cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=[Debug | Release]
 > make
 ```

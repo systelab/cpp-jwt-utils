@@ -30,7 +30,7 @@ class JWTUtilsConan(ConanFile):
 		self.requires("openssl/3.0.16")
 
 	def build_requirements(self):
-		self.test_requires("rapidjson-adapter/1.2.1")
+		self.test_requires("rapidjson-adapter/1.1.10")
 		self.test_requires("gtest/1.14.0")
 
 	def generate(self):

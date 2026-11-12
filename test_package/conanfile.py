@@ -11,7 +11,7 @@ class JWTUtilsTestConan(ConanFile):
 
     def requirements(self):
         self.requires(self.tested_reference_str)
-        self.requires("rapidjson-adapter/1.1.10")
+        self.requires("rapidjson-adapter/1.2.1")
 
     def layout(self):
         cmake_layout(self)
